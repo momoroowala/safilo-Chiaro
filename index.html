@@ -202,13 +202,14 @@
             left: var(--sidebar-width);
             right: 0;
             z-index: 80;
-            height: var(--filter-height);
+            min-height: var(--filter-height);
             background: #FAFBFC;
             border-bottom: 1px solid var(--border);
-            padding: 0 28px;
+            padding: 8px 28px;
             display: flex;
             align-items: center;
-            gap: 16px;
+            gap: 12px;
+            flex-wrap: wrap;
         }
         .filter-group {
             display: flex;
@@ -2381,7 +2382,7 @@
             setupBannerObserver();
             refreshValidationBanner();
             syncBannerOffset();
-            await loadOverview(getFilters());
+            await loadOverview(getFilters(), ++sectionLoadToken);
         }
 
         // Generic export trigger usable from any export button.
