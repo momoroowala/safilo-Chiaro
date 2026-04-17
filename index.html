@@ -42,7 +42,8 @@
             --blue-dim: rgba(134,172,202,0.1);
             --sidebar-width: 220px;
             --header-height: 72px;
-            --filter-height: 56px;
+            --brand-tab-height: 40px;
+            --filter-height: 48px;
             --banner-height: 0px;
         }
 
@@ -195,21 +196,62 @@
             line-height: 1.5;
         }
 
-        /* ============ FILTERS BAR ============ */
-        .filters-bar {
+        /* ============ BRAND TABS ============ */
+        .brand-tabs {
             position: fixed;
             top: calc(var(--header-height) + var(--banner-height));
             left: var(--sidebar-width);
             right: 0;
-            z-index: 80;
-            min-height: var(--filter-height);
-            background: #FAFBFC;
+            z-index: 81;
+            height: var(--brand-tab-height);
+            display: flex;
+            align-items: stretch;
+            overflow-x: auto;
+            overflow-y: hidden;
+            background: #FFFFFF;
             border-bottom: 1px solid var(--border);
-            padding: 8px 28px;
+            padding: 0 20px;
+            gap: 0;
+            scrollbar-width: thin;
+        }
+        .brand-tabs::-webkit-scrollbar { height: 3px; }
+        .brand-tabs::-webkit-scrollbar-thumb { background: var(--border-light); border-radius: 3px; }
+        .brand-tab {
+            padding: 0 16px;
+            font-size: 11px;
+            font-weight: 400;
+            color: var(--text-muted);
+            cursor: pointer;
+            border-bottom: 2px solid transparent;
+            white-space: nowrap;
             display: flex;
             align-items: center;
-            gap: 12px;
-            flex-wrap: wrap;
+            transition: color 0.15s, border-color 0.15s;
+            text-transform: uppercase;
+            letter-spacing: 0.06em;
+            font-family: 'Jost', sans-serif;
+        }
+        .brand-tab:hover { color: var(--text-primary); background: var(--bg-secondary); }
+        .brand-tab.active {
+            color: var(--navy);
+            font-weight: 600;
+            border-bottom-color: var(--navy);
+        }
+
+        /* ============ FILTERS BAR ============ */
+        .filters-bar {
+            position: fixed;
+            top: calc(var(--header-height) + var(--banner-height) + var(--brand-tab-height));
+            left: var(--sidebar-width);
+            right: 0;
+            z-index: 80;
+            height: var(--filter-height);
+            background: #FAFBFC;
+            border-bottom: 1px solid var(--border);
+            padding: 0 20px;
+            display: flex;
+            align-items: center;
+            gap: 14px;
         }
         .filter-group {
             display: flex;
@@ -310,7 +352,7 @@
         /* ============ MAIN CONTENT ============ */
         .main-content {
             margin-left: var(--sidebar-width);
-            padding-top: calc(var(--header-height) + var(--filter-height) + var(--banner-height) + 8px);
+            padding-top: calc(var(--header-height) + var(--banner-height) + var(--brand-tab-height) + var(--filter-height) + 8px);
             min-height: 100vh;
             background: var(--bg-secondary);
         }
@@ -815,26 +857,17 @@
         <button onclick="downloadValidationCsv()" style="margin-left:16px;padding:3px 10px;background:#FFFFFF;border:1px solid #C99A3D;border-radius:3px;color:#7A5A1A;cursor:pointer;font-size:12px;">Download SKU list (CSV)</button>
     </div>
 
-    <!-- FILTER BAR -->
+    <!-- BRAND TABS (like Excel sheet tabs — click to switch brand instantly) -->
+    <div class="brand-tabs" id="brand-tabs">
+        <div class="brand-tab active" data-brand="">All Brands</div>
+        <!-- populated by init() -->
+    </div>
+
+    <!-- VIEW SETTINGS (Channel, Type, Gender, Selection — Apply to confirm) -->
     <div class="filters-bar">
         <div class="filter-group">
-            <label>Brand</label>
-            <select id="filter-brand" onchange="onFilterChange()">
-                <option value="">All Brands</option>
-            </select>
-        </div>
-        <div class="filter-group">
-            <label>Gender</label>
-            <select id="filter-gender" onchange="onFilterChange()">
-                <option value="">All</option>
-                <option value="MAN">Men</option>
-                <option value="WOMAN">Women</option>
-                <option value="UNISEX ADULT">Unisex</option>
-            </select>
-        </div>
-        <div class="filter-group">
             <label>Channel</label>
-            <select id="filter-channel" onchange="onFilterChange()">
+            <select id="filter-channel">
                 <option value="Retail">Retail</option>
                 <option value="BTQ">BTQ</option>
                 <option value="Amazon">Amazon</option>
@@ -845,26 +878,33 @@
         </div>
         <div class="filter-group">
             <label>SKU Type</label>
-            <select id="filter-sku-type" onchange="onFilterChange()">
-                <option value="NMO">NMO (new styles)</option>
-                <option value="NCO">NCO (color renewals)</option>
-                <option value="NMO+NCO">NMO + NCO topline</option>
-                <option value="ALL">All SKU types</option>
+            <select id="filter-sku-type">
+                <option value="NMO">NMO</option>
+                <option value="NCO">NCO</option>
+                <option value="NMO+NCO">NMO + NCO</option>
+                <option value="ALL">All</option>
+            </select>
+        </div>
+        <div class="filter-group">
+            <label>Gender</label>
+            <select id="filter-gender">
+                <option value="">All</option>
+                <option value="MAN">Men</option>
+                <option value="WOMAN">Women</option>
+                <option value="UNISEX ADULT">Unisex</option>
             </select>
         </div>
         <div class="filter-group">
             <label>Selection</label>
-            <select id="filter-selection" onchange="onFilterChange()">
+            <select id="filter-selection">
                 <option value="SELECTED">Selected</option>
                 <option value="UNSELECTED">Unselected</option>
                 <option value="ALL">All</option>
             </select>
         </div>
-        <button class="btn-reset" id="btn-reset" onclick="resetFilters()" style="display:none">Reset Filters</button>
-        <button class="btn-apply" id="btn-apply" onclick="applyDashboardFilters()">
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
-            Apply Filters
-        </button>
+        <button class="btn-reset" id="btn-reset" onclick="resetFilters()" style="display:none">Reset</button>
+        <button class="btn-apply" id="btn-apply" onclick="applyDashboardFilters()">Apply</button>
+        <select id="filter-brand" style="display:none"><option value="">All Brands</option></select>
         <div class="filter-active-tags" id="filter-tags"></div>
     </div>
 
@@ -1647,70 +1687,47 @@
             });
         });
 
-        // ===== FILTERS =====
-        function onFilterChange() {
+        // ===== BRAND TABS =====
+        function selectBrand(brand) {
+            // Update hidden brand select (keeps getFilters() working)
+            document.getElementById('filter-brand').value = brand;
+            // Visual: highlight active tab
+            document.querySelectorAll('.brand-tab').forEach(t => t.classList.remove('active'));
+            const target = document.querySelector(`.brand-tab[data-brand="${CSS.escape(brand)}"]`);
+            if (target) { target.classList.add('active'); target.scrollIntoView({behavior:'smooth', inline:'nearest', block:'nearest'}); }
+            // Brand tabs are instant navigation — no Apply needed
             updateFilterUI();
-            scheduleSectionLoad();
+            loadSection(currentSection);
         }
 
-        function scheduleSectionLoad(immediate = false) {
-            if (filterLoadTimer) clearTimeout(filterLoadTimer);
-            if (immediate) {
-                loadSection(currentSection);
-                return;
-            }
-            filterLoadTimer = setTimeout(() => loadSection(currentSection), 120);
+        // ===== FILTERS (settings row — require Apply) =====
+        function onFilterChange() {
+            updateFilterUI();
         }
 
         function updateFilterUI() {
             const f = getFilters();
-            const brandSel = document.getElementById('filter-brand');
-            const genderSel = document.getElementById('filter-gender');
-            const channelSel = document.getElementById('filter-channel');
-
-            // Highlight active filters
-            brandSel.className = f.brand ? 'has-value' : '';
-            genderSel.className = f.gender ? 'has-value' : '';
-
-            // Show/hide reset button
-            const hasFilters = f.brand || f.gender || f.channel_group !== 'Retail' || f.sku_type !== 'NMO' || f.selection !== 'SELECTED';
-            document.getElementById('btn-reset').style.display = hasFilters ? '' : 'none';
-
-            // Tags
-            const tagsEl = document.getElementById('filter-tags');
-            let tagsHtml = '';
-            if (f.brand) tagsHtml += `<span class="filter-tag">${f.brand} <span class="tag-close" onclick="clearFilter('brand')">&times;</span></span>`;
-            if (f.gender) {
-                const genderLabel = {MAN:'Men',WOMAN:'Women','UNISEX ADULT':'Unisex'}[f.gender] || f.gender;
-                tagsHtml += `<span class="filter-tag">${genderLabel} <span class="tag-close" onclick="clearFilter('gender')">&times;</span></span>`;
-            }
-            tagsEl.innerHTML = tagsHtml;
-        }
-
-        function clearFilter(type) {
-            document.getElementById('filter-' + type).value = '';
-            updateFilterUI();
-            scheduleSectionLoad(true);
+            const hasNonDefault = f.gender || f.channel_group !== 'Retail' || f.sku_type !== 'NMO' || f.selection !== 'SELECTED';
+            document.getElementById('btn-reset').style.display = (hasNonDefault || f.brand) ? '' : 'none';
         }
 
         function applyDashboardFilters() {
             const btn = document.getElementById('btn-apply');
             btn.classList.remove('flash');
-            // Force reflow so re-adding the class triggers animation
             void btn.offsetWidth;
             btn.classList.add('flash');
             updateFilterUI();
-            scheduleSectionLoad(true);
+            loadSection(currentSection);
         }
 
         function resetFilters() {
-            document.getElementById('filter-brand').value = '';
+            selectBrand('');
             document.getElementById('filter-gender').value = '';
             document.getElementById('filter-channel').value = 'Retail';
             document.getElementById('filter-sku-type').value = 'NMO';
             document.getElementById('filter-selection').value = 'SELECTED';
             updateFilterUI();
-            scheduleSectionLoad(true);
+            loadSection(currentSection);
         }
 
         function syncBannerOffset() {
@@ -2372,12 +2389,25 @@
         // ===== INIT =====
         async function init() {
             const brands = await fetchJson('/api/brands');
+
+            // Populate brand tabs
+            const tabBar = document.getElementById('brand-tabs');
+            brands.forEach(b => {
+                const tab = document.createElement('div');
+                tab.className = 'brand-tab';
+                tab.dataset.brand = b;
+                tab.textContent = b;
+                tab.addEventListener('click', () => selectBrand(b));
+                tabBar.appendChild(tab);
+            });
+            // Also populate hidden brand select for getFilters() compatibility
             const sel = document.getElementById('filter-brand');
             brands.forEach(b => {
                 const opt = document.createElement('option');
                 opt.value = b; opt.textContent = b;
                 sel.appendChild(opt);
             });
+
             updateFilterUI();
             setupBannerObserver();
             refreshValidationBanner();
