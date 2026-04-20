@@ -46,6 +46,72 @@
             --banner-height: 0px;
         }
 
+        /* ============ DARK MODE ============
+           Triggered by OS / browser preference. Overrides the light-theme vars so
+           all surfaces, text, and borders invert correctly. Chart.js colors are
+           handled in JS via matchMedia. */
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --bg-primary: #0F1724;
+                --bg-secondary: #16213A;
+                --bg-card: #13203A;
+                --bg-card-hover: #1A294A;
+                --bg-input: #1A294A;
+                --border: rgba(255,255,255,0.08);
+                --border-light: rgba(255,255,255,0.15);
+                --text-primary: #E8EEF5;
+                --text-secondary: #B8C4D6;
+                --text-muted: #8A9BB3;
+                --accent: #86ACCA;
+                --accent-hover: #A8C5DC;
+                --navy: #E8EEF5;        /* invert: use light for "navy" accents on dark */
+                --navy-medium: #B8C4D6;
+                --steel-blue: #86ACCA;
+                --warm-gold: #D4A678;
+                --sage-green: #6AB891;
+                --muted-coral: #E09B72;
+                --green: #6AB891;
+                --green-dim: rgba(106,184,145,0.15);
+                --red: #E09B72;
+                --red-dim: rgba(224,155,114,0.15);
+                --orange: #D4A678;
+                --orange-dim: rgba(212,166,120,0.15);
+                --blue: #86ACCA;
+                --blue-dim: rgba(134,172,202,0.15);
+            }
+            /* Header stays dark navy in both themes — keep its text bright */
+            .header, .header * { color: #FFFFFF !important; }
+            .header-logo .logo-tagline { color: rgba(255,255,255,0.7) !important; }
+            .header .subtitle { color: rgba(255,255,255,0.7) !important; }
+            /* Validation banner: soft amber on dark */
+            #validation-banner {
+                background: rgba(240,213,140,0.08) !important;
+                border-bottom-color: rgba(240,213,140,0.3) !important;
+                color: #F0D58C !important;
+            }
+            #validation-banner button {
+                background: rgba(240,213,140,0.15) !important;
+                color: #F0D58C !important;
+                border-color: rgba(240,213,140,0.4) !important;
+            }
+            /* Anticipated badge: brighten on dark bg */
+            .anticipated-badge {
+                background: rgba(240,213,140,0.15) !important;
+                color: #F0D58C !important;
+                border-color: rgba(240,213,140,0.35) !important;
+            }
+            /* Select / input fields */
+            select, input {
+                background: var(--bg-input) !important;
+                color: var(--text-primary) !important;
+                border-color: var(--border-light) !important;
+            }
+            /* Table headers */
+            table thead th { color: var(--text-secondary); background: var(--bg-secondary); }
+            /* Sidebar active state */
+            .sidebar-item.active { background: rgba(134,172,202,0.15); color: var(--text-primary); }
+        }
+
         body {
             font-family: 'Jost', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
             background: var(--bg-primary);
@@ -394,6 +460,40 @@
         .kpi-card.orange .value { color: var(--warm-gold); }
         .kpi-card.red .kpi-icon { background: var(--red-dim); color: var(--red); }
         .kpi-card.red .value { color: var(--muted-coral); }
+
+        /* Secondary "mini" KPI cards — nice-to-have metrics, visually de-emphasized */
+        .kpi-grid-mini {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+            gap: 10px;
+            margin-bottom: 28px;
+            margin-top: -12px;
+        }
+        .kpi-card.mini {
+            padding: 10px 14px;
+            background: var(--bg-secondary);
+            border: 1px solid var(--border);
+            box-shadow: none;
+            text-align: left;
+            display: flex;
+            align-items: baseline;
+            justify-content: space-between;
+            gap: 10px;
+        }
+        .kpi-card.mini:hover { transform: none; box-shadow: 0 1px 3px rgba(5,36,76,0.06); }
+        .kpi-card.mini .kpi-icon { display: none; }
+        .kpi-card.mini .label {
+            margin: 0;
+            font-size: 9px;
+            letter-spacing: 0.14em;
+            white-space: nowrap;
+        }
+        .kpi-card.mini .value {
+            font-size: 18px;
+            margin: 0;
+            font-weight: 500;
+        }
+        .kpi-card.mini .kpi-sub { display: none; }
 
         /* ============ CHARTS ============ */
         .chart-grid {
@@ -884,6 +984,7 @@
                 <div class="section-title">Performance Overview</div>
                 <div class="section-desc">High-level KPIs and volume distribution for the Group 3 release.</div>
                 <div class="kpi-grid" id="kpi-cards"></div>
+                <div class="kpi-grid-mini" id="kpi-cards-mini"></div>
                 <div class="chart-grid">
                     <div class="chart-card" style="position:relative">
                         <div class="chart-header">
@@ -1603,9 +1704,11 @@
             bodyFont: { family: 'Jost' },
         };
 
-        const CHART_GRID_COLOR = 'rgba(5,36,76,0.08)';
-        const CHART_TICK_COLOR = '#7A8FA6';
-        const CHART_LABEL_COLOR = '#375070';
+        // Theme-aware chart colors — swap to light values when OS / browser is in dark mode.
+        const IS_DARK_MODE = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+        const CHART_GRID_COLOR = IS_DARK_MODE ? 'rgba(255,255,255,0.08)' : 'rgba(5,36,76,0.08)';
+        const CHART_TICK_COLOR = IS_DARK_MODE ? '#B8C4D6' : '#7A8FA6';
+        const CHART_LABEL_COLOR = IS_DARK_MODE ? '#E8EEF5' : '#375070';
 
         // ===== HELPERS =====
         function getFilters() {
@@ -1853,13 +1956,8 @@
             const diffSign = diffPct >= 0 ? '+' : '';
             const diffColor = diffPct >= 0 ? 'var(--sage-green)' : 'var(--muted-coral)';
 
+            // Primary KPIs — the actionable metrics Safilo looks at daily
             document.getElementById('kpi-cards').innerHTML = `
-                <div class="kpi-card">
-                    <div class="kpi-icon" style="background:rgba(5,36,76,0.08); color:var(--navy);">&#9632;</div>
-                    <div class="value">${formatNum(summary.total_g3_skus)}</div>
-                    <div class="label">Total SKUs</div>
-                    <div class="kpi-sub">${summary.brands.length} brands in release</div>
-                </div>
                 <div class="kpi-card green">
                     <div class="kpi-icon">&#10003;</div>
                     <div class="value">${formatNum(summary.skus_with_orders)}</div>
@@ -1878,17 +1976,25 @@
                     <div class="label">Total Projected</div>
                     <div class="kpi-sub" style="color:${diffColor}">${diffSign}${diffPct}% vs actual</div>
                 </div>
-                <div class="kpi-card">
-                    <div class="kpi-icon" style="background:var(--green-dim); color:var(--sage-green);">&#10004;</div>
-                    <div class="value" style="color:var(--sage-green)">${formatNum(summary.selected_count)}</div>
-                    <div class="label">Selected</div>
-                    <div class="kpi-sub">${selPct}% selection rate</div>
+            `;
+
+            // Secondary mini KPIs — nice-to-have counts, visually de-emphasized
+            document.getElementById('kpi-cards-mini').innerHTML = `
+                <div class="kpi-card mini">
+                    <div class="label">Total SKUs</div>
+                    <div class="value">${formatNum(summary.total_g3_skus)}</div>
                 </div>
-                <div class="kpi-card">
-                    <div class="kpi-icon" style="background:rgba(122,143,166,0.1); color:var(--text-muted);">&#10006;</div>
-                    <div class="value" style="color:var(--text-muted)">${formatNum(summary.unselected_count)}</div>
+                <div class="kpi-card mini">
+                    <div class="label">Brands</div>
+                    <div class="value">${summary.brands.length}</div>
+                </div>
+                <div class="kpi-card mini">
+                    <div class="label">Selected</div>
+                    <div class="value" style="color:var(--sage-green)">${formatNum(summary.selected_count)}</div>
+                </div>
+                <div class="kpi-card mini">
                     <div class="label">Unselected</div>
-                    <div class="kpi-sub">${100 - selPct}% of SKUs</div>
+                    <div class="value" style="color:var(--text-muted)">${formatNum(summary.unselected_count)}</div>
                 </div>
             `;
 
@@ -2110,7 +2216,13 @@
 
         // ===== ATTRIBUTES =====
         async function loadAttributes(f, token) {
-            const attrColors = {
+            // Light theme uses deep navy shades; dark theme uses bright steel-blue shades
+            // so the bars aren't invisible against the dark card background.
+            const attrColors = IS_DARK_MODE ? {
+                'frame_shape': { bg: 'rgba(168,197,220,0.75)', border: '#A8C5DC' },
+                'afs_material': { bg: 'rgba(134,172,202,0.75)', border: '#86ACCA' },
+                'color_description': { bg: 'rgba(109,154,191,0.75)', border: '#6D9ABF' },
+            } : {
                 'frame_shape': { bg: 'rgba(5,36,76,0.6)', border: '#05244C' },
                 'afs_material': { bg: 'rgba(55,80,112,0.6)', border: '#375070' },
                 'color_description': { bg: 'rgba(134,172,202,0.6)', border: '#86ACCA' },
