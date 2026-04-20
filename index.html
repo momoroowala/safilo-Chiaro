@@ -64,8 +64,7 @@
                 --text-muted: #8A9BB3;
                 --accent: #86ACCA;
                 --accent-hover: #A8C5DC;
-                --navy: #E8EEF5;        /* invert: use light for "navy" accents on dark */
-                --navy-medium: #B8C4D6;
+                --navy-medium: #2A3C5C;
                 --steel-blue: #86ACCA;
                 --warm-gold: #D4A678;
                 --sage-green: #6AB891;
@@ -78,11 +77,40 @@
                 --orange-dim: rgba(212,166,120,0.15);
                 --blue: #86ACCA;
                 --blue-dim: rgba(134,172,202,0.15);
+                /* --navy stays as brand #05244C — used as bg for primary buttons */
             }
-            /* Header stays dark navy in both themes — keep its text bright */
-            .header, .header * { color: #FFFFFF !important; }
-            .header-logo .logo-tagline { color: rgba(255,255,255,0.7) !important; }
-            .header .subtitle { color: rgba(255,255,255,0.7) !important; }
+            /* Surfaces that hardcoded light colors in the original CSS: force them dark */
+            body { background: var(--bg-primary) !important; color: var(--text-primary) !important; }
+            .sidebar { background: var(--bg-secondary) !important; border-right: 1px solid var(--border) !important; }
+            .sidebar-label { color: var(--text-muted) !important; }
+            .sidebar-item { color: var(--text-secondary) !important; }
+            .sidebar-item:hover { background: var(--bg-card-hover) !important; color: var(--text-primary) !important; }
+            .sidebar-item.active { background: rgba(134,172,202,0.12) !important; color: var(--text-primary) !important; }
+            .sidebar-footer { color: var(--text-muted) !important; }
+            .filters-bar { background: var(--bg-secondary) !important; border-bottom: 1px solid var(--border) !important; }
+            .filter-group label { color: var(--text-muted) !important; }
+            .chart-card, .table-card, .kpi-card { background: var(--bg-card) !important; border-color: var(--border) !important; }
+            .kpi-card.mini { background: var(--bg-secondary) !important; }
+            .kpi-card .value { color: var(--text-primary) !important; }
+            .chart-card h3, .table-card h3 { color: var(--text-secondary) !important; }
+            .chart-card .chart-subtitle { color: var(--text-muted) !important; }
+            .section-title { color: var(--text-primary) !important; }
+            .section-desc { color: var(--text-muted) !important; }
+            /* Apply button: keep navy bg + bright white text so it's the clear CTA */
+            .btn-apply { background: var(--accent) !important; border-color: var(--accent) !important; color: #0F1724 !important; }
+            .btn-apply:hover { background: var(--accent-hover) !important; border-color: var(--accent-hover) !important; }
+            .btn-reset { background: transparent !important; border-color: var(--border-light) !important; color: var(--text-secondary) !important; }
+            /* Select / input fields */
+            select, input {
+                background: var(--bg-input) !important;
+                color: var(--text-primary) !important;
+                border-color: var(--border-light) !important;
+            }
+            /* Table text + borders */
+            table { color: var(--text-primary); }
+            table thead th { color: var(--text-secondary) !important; background: var(--bg-secondary) !important; border-bottom-color: var(--border) !important; }
+            table tbody tr { border-bottom-color: var(--border) !important; }
+            table tbody tr:hover { background: var(--bg-card-hover) !important; }
             /* Validation banner: soft amber on dark */
             #validation-banner {
                 background: rgba(240,213,140,0.08) !important;
@@ -100,16 +128,19 @@
                 color: #F0D58C !important;
                 border-color: rgba(240,213,140,0.35) !important;
             }
-            /* Select / input fields */
-            select, input {
-                background: var(--bg-input) !important;
-                color: var(--text-primary) !important;
-                border-color: var(--border-light) !important;
-            }
-            /* Table headers */
-            table thead th { color: var(--text-secondary); background: var(--bg-secondary); }
-            /* Sidebar active state */
-            .sidebar-item.active { background: rgba(134,172,202,0.15); color: var(--text-primary); }
+            /* Header stays dark navy in both themes — keep its text bright */
+            .header, .header * { color: #FFFFFF !important; }
+            .header-logo .logo-tagline { color: rgba(255,255,255,0.7) !important; }
+            .header .subtitle { color: rgba(255,255,255,0.7) !important; }
+            /* Rank badges: brighten on dark */
+            .rank-a { background: rgba(106,184,145,0.2) !important; color: #6AB891 !important; }
+            .rank-b { background: rgba(212,166,120,0.2) !important; color: #D4A678 !important; }
+            .rank-c { background: rgba(224,155,114,0.2) !important; color: #E09B72 !important; }
+            .selected-badge { color: var(--sage-green) !important; }
+            .unselected-badge { color: var(--text-muted) !important; }
+            /* Scrollbars */
+            ::-webkit-scrollbar-track { background: var(--bg-secondary) !important; }
+            ::-webkit-scrollbar-thumb { background: var(--border-light) !important; }
         }
 
         body {
