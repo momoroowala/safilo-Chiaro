@@ -2869,7 +2869,7 @@
             // unselected SKUs? Two views per bucket: SKU coverage (% of SKUs
             // that received orders) and volume share (% of total units).
             const demand = (su.demand || []);
-            const channelLabel = (su.channel === 'ALL') ? 'all channels' : su.channel;
+            const demandChannelLabel = (su.channel === 'ALL') ? 'all channels' : su.channel;
             const sel = demand.find(d => String(d.bucket).toUpperCase() === 'SELECTED') || {};
             const uns = demand.find(d => String(d.bucket).toUpperCase() === 'UNSELECTED') || {};
             const totalVolPanel = (sel.volume || 0) + (uns.volume || 0);
@@ -2880,7 +2880,7 @@
             const demandHeadline = document.getElementById('demand-headline');
             if (demandHeadline) {
                 if (totalVolPanel === 0) {
-                    demandHeadline.innerHTML = `No orders in this view (${channelLabel}). Adjust filters to see the demand split.`;
+                    demandHeadline.innerHTML = `No orders in this view (${demandChannelLabel}). Adjust filters to see the demand split.`;
                 } else {
                     let signal;
                     if (unsVolPct < 1) signal = 'minimal demand for unselected SKUs';
