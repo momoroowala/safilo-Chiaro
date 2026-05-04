@@ -1167,6 +1167,506 @@
             color: var(--text-muted);
             margin-left: 4px;
         }
+
+        /* ============ MULTI-SELECT DROPDOWN (Brand, Gender) ============ */
+        .multiselect {
+            position: relative;
+            min-width: 150px;
+        }
+        .multiselect-button {
+            background: #FFFFFF;
+            color: var(--text-primary);
+            border: 1px solid var(--border-light);
+            padding: 7px 28px 7px 12px;
+            border-radius: 4px;
+            font-size: 13px;
+            font-family: 'Jost', sans-serif;
+            cursor: pointer;
+            min-width: 150px;
+            text-align: left;
+            position: relative;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            transition: border-color 0.15s;
+        }
+        .multiselect-button::after {
+            content: "\25BE";
+            position: absolute;
+            right: 10px;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 10px;
+            color: var(--text-muted);
+        }
+        .multiselect-button.has-value {
+            border-color: var(--navy);
+            background: rgba(5,36,76,0.04);
+        }
+        .multiselect-panel {
+            position: absolute;
+            top: calc(100% + 4px);
+            left: 0;
+            min-width: 220px;
+            max-height: 280px;
+            overflow-y: auto;
+            background: #FFFFFF;
+            border: 1px solid var(--border-light);
+            border-radius: 4px;
+            box-shadow: 0 4px 14px rgba(5,36,76,0.12);
+            z-index: 200;
+            padding: 6px 0;
+            display: none;
+        }
+        .multiselect-panel.open { display: block; }
+        .multiselect-panel label {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 6px 12px;
+            cursor: pointer;
+            font-size: 12px;
+            color: var(--text-primary);
+            font-family: 'Jost', sans-serif;
+        }
+        .multiselect-panel label:hover { background: rgba(134,172,202,0.12); }
+        .multiselect-panel input[type="checkbox"] { margin: 0; cursor: pointer; }
+        .multiselect-panel .ms-divider {
+            height: 1px;
+            background: var(--border);
+            margin: 4px 0;
+        }
+        .multiselect-panel .ms-action {
+            display: flex;
+            justify-content: space-between;
+            padding: 4px 12px 8px;
+            font-size: 11px;
+        }
+        .multiselect-panel .ms-action a {
+            color: var(--accent);
+            cursor: pointer;
+            text-decoration: none;
+        }
+        .multiselect-panel .ms-action a:hover { text-decoration: underline; }
+        @media (prefers-color-scheme: dark) {
+            .multiselect-button { background: var(--bg-input) !important; color: var(--text-primary) !important; border-color: var(--border-light) !important; }
+            .multiselect-panel { background: var(--bg-card) !important; border-color: var(--border-light) !important; }
+            .multiselect-panel label { color: var(--text-primary) !important; }
+        }
+
+        /* ============ RANKING COMPARISON TABLES (Section 1) ============ */
+        .ranking-tables-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 24px;
+            margin-bottom: 24px;
+        }
+        @media (max-width: 980px) {
+            .ranking-tables-grid { grid-template-columns: 1fr; }
+        }
+        .rank-compare-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 13px;
+        }
+        .rank-compare-table thead th {
+            background: var(--navy);
+            color: #FFFFFF;
+            padding: 10px 12px;
+            font-size: 10px;
+            font-weight: 500;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            text-align: right;
+            cursor: default;
+        }
+        .rank-compare-table thead th:first-child { text-align: center; }
+        .rank-compare-table tbody td {
+            padding: 14px 12px;
+            border-bottom: 1px solid var(--border);
+            text-align: right;
+            font-variant-numeric: tabular-nums;
+            font-weight: 500;
+            color: var(--text-primary);
+        }
+        .rank-compare-table tbody td:first-child {
+            text-align: center;
+            font-weight: 700;
+            font-size: 18px;
+            letter-spacing: 0.05em;
+        }
+        .rank-compare-table tbody td.tier-a { color: var(--sage-green); }
+        .rank-compare-table tbody td.tier-b { color: var(--warm-gold); }
+        .rank-compare-table tbody td.tier-c { color: var(--muted-coral); }
+        .rank-compare-table tbody td.tier-d { color: var(--text-muted); }
+        .rank-compare-table tbody tr:hover td { background: rgba(134,172,202,0.08); }
+        .rank-compare-table .rc-suggested {
+            background: rgba(5,36,76,0.04);
+            font-weight: 600;
+        }
+        .rank-compare-warning {
+            background: #FFF7E6;
+            border: 1px solid #F0D58C;
+            color: #7A5A1A;
+            padding: 8px 12px;
+            border-radius: 4px;
+            font-size: 12px;
+            margin-bottom: 12px;
+        }
+        @media (prefers-color-scheme: dark) {
+            .rank-compare-warning {
+                background: rgba(240,213,140,0.08) !important;
+                border-color: rgba(240,213,140,0.3) !important;
+                color: #F0D58C !important;
+            }
+            .rank-compare-table .rc-suggested {
+                background: rgba(255,255,255,0.04) !important;
+            }
+        }
+        .rank-compare-footer {
+            font-size: 11px;
+            color: var(--text-muted);
+            margin-top: 10px;
+            font-style: italic;
+        }
+
+        /* ============ PERFORMANCE RECAP (Section 2) ============ */
+        .recap-page {
+            max-width: 1100px;
+        }
+        .recap-customize {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 6px;
+            padding: 14px 18px;
+            margin-bottom: 18px;
+        }
+        .recap-customize summary {
+            cursor: pointer;
+            font-size: 12px;
+            font-weight: 500;
+            color: var(--text-secondary);
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            list-style: none;
+        }
+        .recap-customize summary::before {
+            content: "\25B8 ";
+            color: var(--accent);
+            margin-right: 6px;
+        }
+        .recap-customize[open] summary::before { content: "\25BE "; }
+        .recap-customize-body {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 14px;
+            align-items: end;
+            margin-top: 14px;
+            padding-top: 14px;
+            border-top: 1px solid var(--border);
+        }
+        .recap-locked {
+            font-size: 11px;
+            color: var(--text-muted);
+            margin-top: 8px;
+            font-style: italic;
+        }
+        .recap-section {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 6px;
+            padding: 22px 26px;
+            margin-bottom: 18px;
+            box-shadow: 0 1px 3px rgba(5,36,76,0.06);
+        }
+        .recap-section h2 {
+            font-size: 13px;
+            color: var(--text-secondary);
+            text-transform: uppercase;
+            letter-spacing: 0.15em;
+            font-weight: 500;
+            margin-bottom: 14px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid var(--accent);
+        }
+        .recap-top-retailers ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+        .recap-top-retailers li {
+            padding: 8px 0;
+            font-size: 14px;
+            color: var(--text-primary);
+            border-bottom: 1px solid var(--border);
+        }
+        .recap-top-retailers li:last-child { border-bottom: none; }
+        .recap-top-retailers .retailer-name {
+            font-weight: 700;
+            color: var(--navy);
+        }
+        @media (prefers-color-scheme: dark) {
+            .recap-top-retailers .retailer-name { color: var(--text-primary); }
+        }
+        .recap-brand-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 6px;
+            padding: 22px 26px;
+            margin-bottom: 18px;
+            box-shadow: 0 1px 3px rgba(5,36,76,0.06);
+        }
+        .recap-brand-card h3 {
+            font-size: 18px;
+            font-weight: 600;
+            color: var(--navy);
+            margin-bottom: 6px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        @media (prefers-color-scheme: dark) {
+            .recap-brand-card h3 { color: var(--text-primary); }
+        }
+        .recap-flag {
+            display: inline-block;
+            padding: 2px 8px;
+            border-radius: 10px;
+            font-size: 10px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.06em;
+            background: rgba(212,132,90,0.15);
+            color: var(--muted-coral);
+            border: 1px solid rgba(212,132,90,0.4);
+        }
+        .recap-brand-metrics {
+            display: flex;
+            gap: 24px;
+            margin: 12px 0 18px;
+            font-size: 13px;
+            flex-wrap: wrap;
+        }
+        .recap-brand-metrics .metric-label {
+            color: var(--text-muted);
+            text-transform: uppercase;
+            font-size: 10px;
+            letter-spacing: 0.08em;
+            margin-right: 6px;
+        }
+        .recap-brand-metrics .metric-value {
+            font-weight: 600;
+            color: var(--text-primary);
+        }
+        .recap-styles-block h4,
+        .recap-extra-block h4,
+        .recap-lowest-block h4 {
+            font-size: 11px;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            margin: 14px 0 8px;
+            font-weight: 500;
+        }
+        .recap-style-item {
+            background: var(--bg-secondary);
+            padding: 10px 14px;
+            border-radius: 4px;
+            margin-bottom: 8px;
+            font-size: 13px;
+            line-height: 1.5;
+        }
+        .recap-style-item .style-num {
+            color: var(--accent);
+            font-weight: 700;
+            margin-right: 6px;
+        }
+        .recap-style-item .style-name {
+            font-style: italic;
+            font-weight: 600;
+            color: var(--text-primary);
+        }
+        .recap-style-item .style-meta {
+            display: block;
+            margin-top: 4px;
+            color: var(--text-secondary);
+            font-size: 12px;
+        }
+        .recap-style-item .style-flag {
+            color: var(--sage-green);
+            font-weight: 500;
+            font-size: 11px;
+        }
+        .recap-style-item .style-flag.down { color: var(--muted-coral); }
+        .recap-extra-block {
+            font-size: 12px;
+            color: var(--text-muted);
+        }
+        .recap-extra-block .extra-value {
+            color: var(--text-primary);
+            font-weight: 600;
+        }
+        .recap-lowest-block .lowest-row {
+            font-size: 12px;
+            color: var(--text-muted);
+            padding: 4px 0;
+            font-family: 'Jost', sans-serif;
+        }
+        .recap-overforecasted-list {
+            list-style: none;
+            padding: 0;
+        }
+        .recap-overforecasted-list li {
+            padding: 10px 0;
+            border-bottom: 1px solid var(--border);
+        }
+        .recap-overforecasted-list li:last-child { border-bottom: none; }
+        .recap-overforecasted-list .of-brand {
+            font-weight: 700;
+            color: var(--navy);
+            font-size: 14px;
+        }
+        @media (prefers-color-scheme: dark) {
+            .recap-overforecasted-list .of-brand { color: var(--text-primary); }
+        }
+        .recap-overforecasted-list .of-meta {
+            display: block;
+            font-size: 11px;
+            color: var(--text-muted);
+            margin-top: 3px;
+        }
+        .recap-header-actions {
+            display: flex;
+            gap: 8px;
+            justify-content: flex-end;
+            margin-bottom: 14px;
+        }
+        .recap-action-btn {
+            background: #FFFFFF;
+            border: 1px solid var(--border-light);
+            color: var(--text-secondary);
+            padding: 6px 14px;
+            border-radius: 4px;
+            font-size: 11px;
+            font-family: 'Jost', sans-serif;
+            cursor: pointer;
+            text-transform: uppercase;
+            letter-spacing: 0.06em;
+            transition: all 0.15s;
+        }
+        .recap-action-btn:hover { border-color: var(--navy); color: var(--navy); }
+        @media (prefers-color-scheme: dark) {
+            .recap-action-btn { background: var(--bg-input) !important; color: var(--text-primary) !important; border-color: var(--border-light) !important; }
+        }
+
+        /* ============ BRAND × RETAILER MATRIX (Section 3) ============ */
+        .matrix-toggle {
+            display: inline-flex;
+            background: var(--bg-input);
+            border: 1px solid var(--border-light);
+            border-radius: 4px;
+            overflow: hidden;
+            font-size: 11px;
+            font-family: 'Jost', sans-serif;
+        }
+        .matrix-toggle button {
+            background: transparent;
+            border: 0;
+            padding: 6px 14px;
+            color: var(--text-secondary);
+            cursor: pointer;
+            text-transform: uppercase;
+            letter-spacing: 0.06em;
+            font-family: 'Jost', sans-serif;
+            font-size: 11px;
+        }
+        .matrix-toggle button.active {
+            background: var(--navy);
+            color: #FFFFFF;
+        }
+        @media (prefers-color-scheme: dark) {
+            .matrix-toggle button.active { background: var(--accent) !important; color: #0F1724 !important; }
+        }
+        .br-matrix-wrapper {
+            overflow-x: auto;
+            max-height: 620px;
+        }
+        .br-matrix {
+            border-collapse: collapse;
+            font-size: 12px;
+            min-width: 100%;
+            table-layout: auto;
+        }
+        .br-matrix thead th {
+            background: var(--navy);
+            color: #FFFFFF;
+            padding: 8px 10px;
+            font-size: 10px;
+            font-weight: 500;
+            text-transform: uppercase;
+            letter-spacing: 0.06em;
+            text-align: right;
+            white-space: nowrap;
+            position: sticky;
+            top: 0;
+            z-index: 3;
+            cursor: default;
+        }
+        .br-matrix thead .retailer-pct-row th {
+            background: rgba(196,149,106,0.12);
+            color: var(--text-secondary);
+            font-size: 10px;
+            top: 0;
+            border-bottom: 1px solid var(--warm-gold);
+        }
+        @media (prefers-color-scheme: dark) {
+            .br-matrix thead .retailer-pct-row th { background: rgba(212,166,120,0.18) !important; color: var(--text-secondary) !important; }
+        }
+        .br-matrix thead th.left-col, .br-matrix thead th.brand-col { text-align: left; }
+        .br-matrix tbody td {
+            padding: 7px 10px;
+            border-bottom: 1px solid var(--border);
+            text-align: right;
+            font-variant-numeric: tabular-nums;
+            white-space: nowrap;
+            color: var(--text-primary);
+        }
+        .br-matrix tbody td.brand-col {
+            text-align: left;
+            font-weight: 600;
+            color: var(--navy);
+            cursor: pointer;
+            position: sticky;
+            left: 0;
+            background: var(--bg-card);
+            z-index: 2;
+        }
+        @media (prefers-color-scheme: dark) {
+            .br-matrix tbody td.brand-col { color: var(--text-primary); background: var(--bg-card); }
+        }
+        .br-matrix tbody td.brand-col:hover { color: var(--accent); text-decoration: underline; }
+        .br-matrix tbody tr.matrix-grand-total td {
+            font-weight: 700;
+            background: rgba(5,36,76,0.05);
+            border-top: 2px solid var(--navy);
+        }
+        @media (prefers-color-scheme: dark) {
+            .br-matrix tbody tr.matrix-grand-total td { background: rgba(255,255,255,0.05) !important; }
+        }
+        .br-matrix .cum-cell-on-goal { background: rgba(74,140,111,0.45); color: #FFFFFF; font-weight: 600; }
+        .br-matrix .cum-cell-mid-high { background: rgba(74,140,111,0.18); color: var(--sage-green); font-weight: 600; }
+        .br-matrix .cum-cell-mid-low { background: rgba(212,132,90,0.18); color: var(--muted-coral); font-weight: 600; }
+        .br-matrix .cum-cell-low { background: rgba(212,132,90,0.45); color: #FFFFFF; font-weight: 600; }
+        .br-matrix .pct-highlight { background: rgba(74,140,111,0.22); color: var(--sage-green); font-weight: 600; }
+
+        /* Print: Performance Recap to PDF (window.print) */
+        @media print {
+            .header, .sidebar, .filters-bar, #validation-banner, .recap-header-actions, .recap-customize, .lineage-modal, .info-icon { display: none !important; }
+            .main-content { margin: 0 !important; padding: 0 !important; }
+            body { background: #FFFFFF !important; color: #000000 !important; }
+            .recap-section, .recap-brand-card { page-break-inside: avoid; box-shadow: none !important; border: 1px solid #ccc !important; }
+            .br-matrix thead th { color: #000 !important; background: #eee !important; }
+        }
     </style>
 </head>
 <body>
@@ -1217,6 +1717,9 @@
             <div class="sidebar-item active" data-section="overview">
                 <span class="nav-icon">&#9632;</span> Overview
             </div>
+            <div class="sidebar-item" data-section="perfrecap">
+                <span class="nav-icon">&#9678;</span> NA-RETL Recap
+            </div>
             <div class="sidebar-item" data-section="rankings">
                 <span class="nav-icon">&#9650;</span> Rankings
             </div>
@@ -1253,9 +1756,10 @@
     <div class="filters-bar">
         <div class="filter-group">
             <label>Brand</label>
-            <select id="filter-brand">
-                <option value="">All Brands</option>
-            </select>
+            <div class="multiselect" id="ms-brand" data-placeholder="All Brands">
+                <button type="button" class="multiselect-button">All Brands</button>
+                <div class="multiselect-panel"></div>
+            </div>
         </div>
         <div class="filter-group">
             <label>Channel</label>
@@ -1278,12 +1782,10 @@
         </div>
         <div class="filter-group">
             <label>Gender</label>
-            <select id="filter-gender">
-                <option value="">All</option>
-                <option value="MAN">Men</option>
-                <option value="WOMAN">Women</option>
-                <option value="UNISEX ADULT">Unisex</option>
-            </select>
+            <div class="multiselect" id="ms-gender" data-placeholder="All Genders">
+                <button type="button" class="multiselect-button">All Genders</button>
+                <div class="multiselect-panel"></div>
+            </div>
         </div>
         <div class="filter-group">
             <label>Selection</label>
@@ -1334,22 +1836,45 @@
                         </div>
                     </div>
                 </div>
+                <!-- Brand x Retailer Matrix -->
+                <div class="chart-card" style="position:relative; margin-top:24px;">
+                    <div class="chart-header" style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:12px;">
+                        <div>
+                            <h3>Brand &times; Retailer Performance <span class="info-icon" title="Click any brand name to jump to that brand's section in the NA-RETL Performance Recap. Toggle between absolute units and per-brand percentages.">&#9432;</span></h3>
+                            <div class="chart-subtitle" id="br-matrix-subtitle"></div>
+                        </div>
+                        <div style="display:flex; gap:8px; align-items:center; flex-wrap:wrap;">
+                            <div class="matrix-toggle" id="br-matrix-toggle">
+                                <button data-view="units" class="active">Units</button>
+                                <button data-view="pct">% of Brand Sales</button>
+                            </div>
+                            <button class="recap-action-btn" onclick="downloadMatrixPDF()">PDF</button>
+                            <button class="recap-action-btn" onclick="downloadMatrixCSV()">CSV</button>
+                        </div>
+                    </div>
+                    <div class="br-matrix-wrapper" id="br-matrix-wrapper"></div>
+                    <div class="loading-overlay" id="load-br-matrix"><div class="spinner"></div></div>
+                </div>
             </div>
 
             <!-- RANKINGS -->
             <div id="section-rankings" class="section">
                 <div class="section-title">Ranking Analysis</div>
-                <div class="section-desc">ABC tier benchmarks and style-level performance rankings.</div>
-                <div class="chart-grid">
+                <div class="section-desc">Forecast vs actualized tier benchmarks and a data-driven new-tier suggestion. VOL items are excluded.</div>
+                <div class="ranking-tables-grid">
                     <div class="chart-card" style="position:relative">
-                        <div class="chart-header"><h3>ABC Benchmark &mdash; Styles <span class="info-icon" onclick="openLineageModal('chart.abc_bench_styles')" title="Data pathway">&#9432;</span></h3></div>
-                        <div class="chart-container"><canvas id="chart-bench-style"></canvas></div>
-                        <div class="loading-overlay" id="load-bench-style"><div class="spinner"></div></div>
+                        <div class="chart-header"><h3>Style-Level Rankings <span class="info-icon" title="Original Forecast = max forecast qty among items at each tier (A-/B-/C- collapsed). Actualized = max actualized qty. New Suggested = K-means clustering of actualized values, rounded up.">&#9432;</span></h3></div>
+                        <div id="rank-style-warning" class="rank-compare-warning" style="display:none"></div>
+                        <div id="rank-style-table"></div>
+                        <div id="rank-style-footer" class="rank-compare-footer"></div>
+                        <div class="loading-overlay" id="load-rank-style"><div class="spinner"></div></div>
                     </div>
                     <div class="chart-card" style="position:relative">
-                        <div class="chart-header"><h3>ABC Benchmark &mdash; SKUs <span class="info-icon" onclick="openLineageModal('chart.abc_bench_skus')" title="Data pathway">&#9432;</span></h3></div>
-                        <div class="chart-container"><canvas id="chart-bench-sku"></canvas></div>
-                        <div class="loading-overlay" id="load-bench-sku"><div class="spinner"></div></div>
+                        <div class="chart-header"><h3>SKU-Level Rankings <span class="info-icon" title="Original Forecast = max forecast qty among items at each tier (A-/B-/C- collapsed). Actualized = max actualized qty. New Suggested = K-means clustering of actualized values, rounded up.">&#9432;</span></h3></div>
+                        <div id="rank-sku-warning" class="rank-compare-warning" style="display:none"></div>
+                        <div id="rank-sku-table"></div>
+                        <div id="rank-sku-footer" class="rank-compare-footer"></div>
+                        <div class="loading-overlay" id="load-rank-sku"><div class="spinner"></div></div>
                     </div>
                 </div>
                 <div class="table-card">
@@ -1363,6 +1888,52 @@
                     </div>
                     <div class="table-count" id="ranking-count"></div>
                     <div class="max-h-table" id="ranking-table"></div>
+                </div>
+            </div>
+
+            <!-- NA-RETL PERFORMANCE RECAP -->
+            <div id="section-perfrecap" class="section">
+                <div class="recap-page">
+                    <div class="recap-header-actions">
+                        <button class="recap-action-btn" onclick="downloadRecapPDF()">Download PDF</button>
+                        <button class="recap-action-btn" onclick="downloadRecapCSV()">Download CSV</button>
+                    </div>
+                    <div class="section-title">NA-RETL Performance Recap</div>
+                    <div class="section-desc">Executive recap of brand and style performance for the Retail channel, NMO assortment.</div>
+                    <details class="recap-customize">
+                        <summary>Customize View</summary>
+                        <div class="recap-customize-body">
+                            <div class="filter-group">
+                                <label>Brand</label>
+                                <div class="multiselect" id="ms-recap-brand" data-placeholder="All Brands">
+                                    <button type="button" class="multiselect-button">All Brands</button>
+                                    <div class="multiselect-panel"></div>
+                                </div>
+                            </div>
+                            <div class="filter-group">
+                                <label>Gender</label>
+                                <div class="multiselect" id="ms-recap-gender" data-placeholder="All Genders">
+                                    <button type="button" class="multiselect-button">All Genders</button>
+                                    <div class="multiselect-panel"></div>
+                                </div>
+                            </div>
+                            <div class="filter-group">
+                                <label>Selection</label>
+                                <select id="filter-recap-selection">
+                                    <option value="ALL">All</option>
+                                    <option value="SELECTED">Selected</option>
+                                    <option value="UNSELECTED">Unselected</option>
+                                </select>
+                            </div>
+                            <button class="btn-apply" onclick="loadPerformanceRecap()" style="margin-left:auto;padding:6px 14px;font-size:11px;">Apply</button>
+                            <button class="btn-reset" onclick="resetRecapFilters()" style="padding:6px 14px;font-size:11px;">Reset to Default</button>
+                        </div>
+                        <div class="recap-locked">Channel locked to Retail · SKU Type locked to NMO</div>
+                    </details>
+                    <div style="position:relative; min-height:200px;">
+                        <div id="recap-content"></div>
+                        <div class="loading-overlay" id="load-perfrecap"><div class="spinner"></div></div>
+                    </div>
                 </div>
             </div>
 
@@ -1613,22 +2184,41 @@
     }
 
     function filterCacheKey(p, selectionCol) {
+        function _stable(v) {
+            if (v == null || v === '') return '';
+            if (Array.isArray(v)) return v.slice().sort().join(',');
+            return String(v).split(',').map(function(s) { return s.trim(); }).filter(Boolean).sort().join(',');
+        }
         return [
             p.sku_type || 'NMO',
             p.channel_group || 'Retail',
             p.selection || 'SELECTED',
-            p.brand || '',
-            p.gender || '',
+            _stable(p.brand),
+            _stable(p.gender),
             resolveSelectionCol(p, selectionCol)
         ].join('|');
+    }
+
+    function _normalizeMulti(value) {
+        // Accepts string ("a,b" or "a"), array, or empty. Returns Set of trimmed non-empty values.
+        if (value == null || value === '') return null;
+        var arr;
+        if (Array.isArray(value)) arr = value;
+        else arr = String(value).split(',');
+        var out = new Set();
+        for (var i = 0; i < arr.length; i++) {
+            var v = String(arr[i]).trim();
+            if (v) out.add(v);
+        }
+        return out.size > 0 ? out : null;
     }
 
     function applyFilters(rows, p, selectionCol) {
         var st = p.sku_type || 'NMO';
         var cg = p.channel_group || 'Retail';
         var sel = p.selection || 'SELECTED';
-        var brand = p.brand || '';
-        var gender = p.gender || '';
+        var brandSet = _normalizeMulti(p.brand);
+        var genderSet = _normalizeMulti(p.gender);
         var selCol = resolveSelectionCol(p, selectionCol);
 
         if (window.__SAFILO_DATA__ && rows === window.__SAFILO_DATA__.master) {
@@ -1651,8 +2241,8 @@
             });
         }
 
-        if (brand) out = out.filter(function(r) { return r.brand === brand; });
-        if (gender) out = out.filter(function(r) { return r.gender === gender; });
+        if (brandSet) out = out.filter(function(r) { return brandSet.has(r.brand); });
+        if (genderSet) out = out.filter(function(r) { return genderSet.has(r.gender); });
         if (window.__SAFILO_DATA__ && rows === window.__SAFILO_DATA__.master && window.__SAFILO_FILTER_CACHE__) {
             window.__SAFILO_FILTER_CACHE__.set(filterCacheKey(p, selCol), out);
         }
@@ -1681,6 +2271,10 @@
             case '/api/account_brand_matrix': return computeAccountBrandMatrix(D, p);
             case '/api/sku_detail': return computeSkuDetail(D, p);
             case '/api/top_performers': return computeTopPerformers(D, p);
+            case '/api/ranking_matrix_style': return computeRankingMatrix(D, p, 'style');
+            case '/api/ranking_matrix_sku': return computeRankingMatrix(D, p, 'sku');
+            case '/api/performance_recap': return computePerformanceRecap(D, p);
+            case '/api/brand_retailer_matrix': return computeBrandRetailerMatrix(D, p);
             default: return {};
         }
     }
@@ -2231,7 +2825,496 @@
 
         return {styles: styles.slice(0, 100), skus: skus};
     }
-    
+
+    // ============================================================
+    // SHARED HELPERS for Sections 1, 2, 3 (Rankings refactor, NA-RETL Recap, Brand×Retailer matrix)
+    // Column refs: forecast=qty_retl, actualized=units_retail, color=color_description,
+    //              style=style_name, retailer=account (account_actuals.account)
+    // ============================================================
+
+    // Collapse +/- variants of A/B/C into base letter, exclude VOL/X/null. D passes through.
+    function collapseTier(rank) {
+        if (rank == null || rank === '') return null;
+        var r = String(rank).toUpperCase();
+        if (r === 'VOL' || r === 'X') return null;
+        var ch = r.charAt(0);
+        if (ch === 'A' || ch === 'B' || ch === 'C' || ch === 'D') return ch;
+        return null;
+    }
+
+    // Round-up rule from spec: >=100 round up to nearest 50, <100 round up to nearest 10.
+    function roundUpTier(v) {
+        v = Math.max(0, Number(v) || 0);
+        if (v >= 100) return Math.ceil(v / 50) * 50;
+        return Math.ceil(v / 10) * 10;
+    }
+
+    // 1D K-means with k clusters on a sorted descending array of values. Returns clusters
+    // (each cluster is { values:[], max, min }) sorted by max descending.
+    function kmeans1D(values, k) {
+        var sorted = values.slice().sort(function(a, b) { return b - a; });
+        if (sorted.length === 0) return [];
+        if (sorted.length <= k) {
+            return sorted.map(function(v) { return { values: [v], max: v, min: v }; });
+        }
+        // Initial centroids: pick equally spaced points along the sorted list.
+        var centroids = [];
+        for (var i = 0; i < k; i++) {
+            centroids.push(sorted[Math.floor(i * (sorted.length - 1) / Math.max(1, k - 1))]);
+        }
+        var assignments = new Array(sorted.length).fill(0);
+        for (var iter = 0; iter < 30; iter++) {
+            var changed = false;
+            for (var j = 0; j < sorted.length; j++) {
+                var bestIdx = 0, bestDist = Infinity;
+                for (var c = 0; c < k; c++) {
+                    var d = Math.abs(sorted[j] - centroids[c]);
+                    if (d < bestDist) { bestDist = d; bestIdx = c; }
+                }
+                if (assignments[j] !== bestIdx) { assignments[j] = bestIdx; changed = true; }
+            }
+            // Update centroids
+            var sums = new Array(k).fill(0), counts = new Array(k).fill(0);
+            for (var p = 0; p < sorted.length; p++) {
+                sums[assignments[p]] += sorted[p];
+                counts[assignments[p]] += 1;
+            }
+            for (var c2 = 0; c2 < k; c2++) {
+                if (counts[c2] > 0) centroids[c2] = sums[c2] / counts[c2];
+            }
+            if (!changed) break;
+        }
+        var clusters = [];
+        for (var cc = 0; cc < k; cc++) {
+            var bucket = [];
+            for (var pp = 0; pp < sorted.length; pp++) {
+                if (assignments[pp] === cc) bucket.push(sorted[pp]);
+            }
+            if (bucket.length > 0) {
+                clusters.push({
+                    values: bucket,
+                    max: Math.max.apply(null, bucket),
+                    min: Math.min.apply(null, bucket)
+                });
+            }
+        }
+        clusters.sort(function(a, b) { return b.max - a.max; });
+        return clusters;
+    }
+
+    // Suggested A/B/C/D thresholds via the spec's algorithm. Inputs: array of actualized values.
+    // Returns { A, B, C, D } numbers (rounded up via spec rule), each potentially null.
+    // Implements 15% spacing guardrail and "limited data" fallback.
+    function computeSuggestedTiers(values) {
+        var nums = (values || []).map(Number).filter(function(v) { return !isNaN(v) && v > 0; });
+        if (nums.length === 0) return { A: null, B: null, C: null, D: null, limited: true };
+        var sorted = nums.slice().sort(function(a, b) { return b - a; });
+        var A = sorted[0];
+        var rest = sorted.slice(1);
+        if (rest.length === 0) {
+            return { A: roundUpTier(A), B: null, C: null, D: null, limited: true };
+        }
+        var clusters = kmeans1D(rest, 3);
+        var B = clusters[0] ? clusters[0].max : null;
+        var C = clusters[1] ? clusters[1].max : null;
+        var D = clusters[2] ? clusters[2].max : null;
+        var raw = [A, B, C, D];
+        var rounded = raw.map(function(v) { return v == null ? null : roundUpTier(v); });
+        // 15% spacing guardrail: if too close, fall back to next cluster boundary outward.
+        // We just check rounded values; if spacing fails, mark limited but still display what we have.
+        var limited = false;
+        for (var i = 0; i < rounded.length - 1; i++) {
+            var hi = rounded[i], lo = rounded[i+1];
+            if (hi != null && lo != null && hi > 0 && (hi - lo) / hi < 0.15) {
+                limited = true;
+                break;
+            }
+        }
+        if (sorted.length < 4) limited = true;
+        return { A: rounded[0], B: rounded[1], C: rounded[2], D: rounded[3], limited: limited };
+    }
+
+    // Returns the tier label (A/B/C/D) that an actualized value falls into, given the suggested thresholds.
+    // If actualized >= A threshold => A; else if >= B => B; etc.
+    function tierForValue(v, t) {
+        if (v == null || isNaN(v)) return null;
+        if (t.A != null && v >= t.A) return 'A';
+        if (t.B != null && v >= t.B) return 'B';
+        if (t.C != null && v >= t.C) return 'C';
+        if (t.D != null && v >= t.D) return 'D';
+        return 'D';
+    }
+
+    // Channel-aware forecast / actualized columns. We use Retail-channel forecasts from qty_retl
+    // (Aug release retail forecast) and units_retail as actualized. For non-retail channels, we
+    // fall back to qty_ecom for forecast and the channel's units col for actualized.
+    function forecastColForChannel(cg) {
+        if (cg === 'BTQ' || cg === 'Retail' || cg === 'ALL' || !cg) return 'qty_retl';
+        return 'qty_ecom';
+    }
+
+    function actualizedColForChannel(cg) {
+        if (cg === 'ALL' || !cg) return 'total_units';
+        return CHANNEL_UNITS_COL[cg] || 'total_units';
+    }
+
+    // ===== Section 1: Ranking comparison tables =====
+    // Returns { rows: [{tier, forecast, actualized, suggested}], suggested: {A,B,C,D,limited}, sampleSize, levelLabel }
+    function computeRankingMatrix(D, p, level /* 'style' | 'sku' */) {
+        var m = applyFilters(D.master, p);
+        var cg = p.channel_group || 'Retail';
+        var forecastCol = forecastColForChannel(cg);
+        var actualCol = actualizedColForChannel(cg);
+        var rankCol = level === 'style' ? 'rank_retl_style' : 'rank_retl_sku';
+
+        // Filter out VOL/X/null so they don't influence calc.
+        var items = m.filter(function(r) {
+            var t = collapseTier(r[rankCol]);
+            return t != null;
+        });
+
+        // Style-level requires aggregating per (brand|gender|style_name): sum forecast, sum actualized,
+        // pick the dominant rank.
+        var aggItems;
+        if (level === 'style') {
+            var styleAgg = {};
+            items.forEach(function(r) {
+                var key = (r.brand || '') + '||' + (r.gender || '') + '||' + (r.style_name || '');
+                if (!styleAgg[key]) styleAgg[key] = { forecast: 0, actualized: 0, ranks: {} };
+                styleAgg[key].forecast += Number(r[forecastCol]) || 0;
+                styleAgg[key].actualized += Number(r[actualCol]) || 0;
+                var t = collapseTier(r[rankCol]);
+                if (t) styleAgg[key].ranks[t] = (styleAgg[key].ranks[t] || 0) + 1;
+            });
+            aggItems = Object.values(styleAgg).map(function(s) {
+                var dominantRank = null, maxN = 0;
+                Object.keys(s.ranks).forEach(function(rk) { if (s.ranks[rk] > maxN) { maxN = s.ranks[rk]; dominantRank = rk; } });
+                return { tier: dominantRank, forecast: s.forecast, actualized: s.actualized };
+            });
+        } else {
+            aggItems = items.map(function(r) {
+                return { tier: collapseTier(r[rankCol]), forecast: Number(r[forecastCol]) || 0, actualized: Number(r[actualCol]) || 0 };
+            });
+        }
+
+        var byTier = { A: [], B: [], C: [], D: [] };
+        var actualByTier = { A: [], B: [], C: [], D: [] };
+        aggItems.forEach(function(it) {
+            if (!byTier[it.tier]) return;
+            byTier[it.tier].push(it.forecast);
+            actualByTier[it.tier].push(it.actualized);
+        });
+
+        var allActuals = aggItems.map(function(it) { return it.actualized; });
+        var suggested = computeSuggestedTiers(allActuals);
+
+        function maxOrNull(arr) {
+            return arr.length === 0 ? null : Math.max.apply(null, arr);
+        }
+        var rows = ['A', 'B', 'C', 'D'].map(function(t) {
+            return {
+                tier: t,
+                forecast: maxOrNull(byTier[t]),
+                actualized: maxOrNull(actualByTier[t]),
+                suggested: suggested[t]
+            };
+        });
+
+        return {
+            rows: rows,
+            suggested: suggested,
+            sampleSize: aggItems.length,
+            levelLabel: level === 'style' ? 'Style-Level Rankings' : 'SKU-Level Rankings'
+        };
+    }
+
+    // ===== Section 2: NA-RETL Performance Recap =====
+    // p must include retail-NMO defaults; optional brand/gender/selection overrides come from recap UI.
+    function computePerformanceRecap(D, p) {
+        // Force Retail + NMO regardless of incoming params.
+        var locked = Object.assign({}, p, { channel_group: 'Retail', sku_type: 'NMO' });
+        if (!locked.selection) locked.selection = 'ALL';
+
+        var m = applyFilters(D.master, locked);
+        if (!m.length) return { empty: true, brands: [], topRetailers: [], overforecasted: [] };
+
+        // SKU -> brand/gender/style/color/forecast/actualized lookup
+        var skuMeta = {};
+        m.forEach(function(r) {
+            skuMeta[r.sku] = {
+                brand: r.brand,
+                gender: r.gender,
+                style_name: r.style_name,
+                color: r.color_description,
+                rank: collapseTier(r.rank_retl_style),
+                forecast: Number(r.qty_retl) || 0,
+                actualized: Number(r.units_retail) || 0,
+                sku_rank_collapsed: collapseTier(r.rank_retl_sku)
+            };
+        });
+
+        // ---- Top retailers across all brands (Retail channel) ----
+        var skuSet = new Set(Object.keys(skuMeta));
+        var retailerTotals = {};
+        var brandRetailerTotals = {};
+        var totalAcrossRetail = 0;
+        (D.account_actuals || []).forEach(function(r) {
+            if (!skuSet.has(r.sku)) return;
+            if (r.channel_group !== 'Retail') return;
+            var u = Number(r.account_units) || 0;
+            retailerTotals[r.account] = (retailerTotals[r.account] || 0) + u;
+            totalAcrossRetail += u;
+            var brand = (skuMeta[r.sku] || {}).brand || '';
+            if (brand) {
+                if (!brandRetailerTotals[brand]) brandRetailerTotals[brand] = {};
+                brandRetailerTotals[brand][r.account] = (brandRetailerTotals[brand][r.account] || 0) + u;
+            }
+        });
+        var sortedRetailers = Object.entries(retailerTotals)
+            .map(function(e) { return { name: e[0], units: e[1] }; })
+            .sort(function(a, b) { return b.units - a.units; });
+        var topN = sortedRetailers.slice(0, 3);
+        // Inclusion rule: 4th retailer if within 20% of 3rd.
+        if (sortedRetailers.length > 3) {
+            var third = sortedRetailers[2].units;
+            var fourth = sortedRetailers[3].units;
+            if (third > 0 && (third - fourth) / third <= 0.2) topN.push(sortedRetailers[3]);
+        }
+        var topRetailers = topN.map(function(rt) {
+            return {
+                name: rt.name,
+                units: rt.units,
+                pct: totalAcrossRetail > 0 ? Math.round((rt.units / totalAcrossRetail) * 100) : 0
+            };
+        });
+
+        // ---- Brand-level aggregation ----
+        var brandData = {};
+        m.forEach(function(r) {
+            var b = r.brand;
+            if (!b) return;
+            if (!brandData[b]) brandData[b] = { brand: b, forecast: 0, actualized: 0, skus_ranked: 0, skus_sold: 0, styleAgg: {} };
+            var fq = Number(r.qty_retl) || 0;
+            var ac = Number(r.units_retail) || 0;
+            brandData[b].forecast += fq;
+            brandData[b].actualized += ac;
+            var skuTier = collapseTier(r.rank_retl_sku);
+            if (skuTier) {
+                brandData[b].skus_ranked += 1;
+                if (ac > 0) brandData[b].skus_sold += 1;
+            }
+            var styleKey = (r.style_name || '');
+            if (!brandData[b].styleAgg[styleKey]) brandData[b].styleAgg[styleKey] = {
+                style_name: r.style_name, forecast: 0, actualized: 0, rank: collapseTier(r.rank_retl_style),
+                colorAgg: {}, skus: []
+            };
+            brandData[b].styleAgg[styleKey].forecast += fq;
+            brandData[b].styleAgg[styleKey].actualized += ac;
+            brandData[b].styleAgg[styleKey].skus.push(r.sku);
+            var colorKey = r.color_description || '(no color)';
+            if (!brandData[b].styleAgg[styleKey].colorAgg[colorKey]) {
+                brandData[b].styleAgg[styleKey].colorAgg[colorKey] = 0;
+            }
+            brandData[b].styleAgg[styleKey].colorAgg[colorKey] += ac;
+        });
+
+        var brandList = Object.values(brandData);
+        brandList.sort(function(a, b) { return b.actualized - a.actualized; });
+
+        // Inclusion: top 4, then up to +2 if within 15% of 4th.
+        var qualifying = brandList.slice(0, 4);
+        if (brandList.length > 4) {
+            var fourthVal = brandList[3].actualized;
+            for (var k = 4; k < Math.min(brandList.length, 6); k++) {
+                if (fourthVal > 0 && (fourthVal - brandList[k].actualized) / fourthVal <= 0.15) {
+                    qualifying.push(brandList[k]);
+                } else break;
+            }
+        }
+
+        // Compute global suggested tiers (style-level) for the auto-flag logic.
+        var globalSuggested = computePerformanceRecapSuggestedTiers(D, locked);
+
+        // Build per-brand recap entries
+        var brands = qualifying.map(function(bd) {
+            // Top retailer for this brand
+            var brt = brandRetailerTotals[bd.brand] || {};
+            var brTotalUnits = Object.values(brt).reduce(function(s, v) { return s + v; }, 0);
+            var topRetailerEntries = Object.entries(brt).sort(function(a, b) { return b[1] - a[1]; });
+            var topRetailer = topRetailerEntries.length > 0 ? {
+                name: topRetailerEntries[0][0],
+                pct: brTotalUnits > 0 ? Math.round((topRetailerEntries[0][1] / brTotalUnits) * 100) : 0
+            } : null;
+
+            // Top 3 styles by actualized
+            var styles = Object.values(bd.styleAgg).sort(function(a, b) { return b.actualized - a.actualized; });
+            var topStyles = styles.slice(0, 3).map(function(s) {
+                var fillRate = s.forecast > 0 ? Math.round((s.actualized / s.forecast) * 100) : null;
+                var colorEntries = Object.entries(s.colorAgg).sort(function(a, b) { return b[1] - a[1] }).filter(function(c) { return c[1] > 0; });
+                var topColors = colorEntries.slice(0, 2).map(function(c) { return c[0]; });
+                // Auto-flag: performed like a different tier
+                var flag = null;
+                if (s.forecast > 0 && s.rank) {
+                    var ratio = s.actualized / s.forecast;
+                    var actualTier = tierForValue(s.actualized, globalSuggested);
+                    var origTier = s.rank;
+                    var tierOrder = { A: 1, B: 2, C: 3, D: 4 };
+                    if (ratio > 1.25 && actualTier && tierOrder[actualTier] < tierOrder[origTier]) {
+                        flag = { dir: 'up', tier: actualTier, range: roundUpTier(s.actualized) };
+                    } else if (ratio < 0.75 && actualTier && tierOrder[actualTier] > tierOrder[origTier]) {
+                        flag = { dir: 'down', tier: actualTier, range: roundUpTier(s.actualized) };
+                    }
+                }
+                return {
+                    style_name: s.style_name,
+                    rank: s.rank,
+                    fill_rate: fillRate,
+                    actualized: s.actualized,
+                    forecast: s.forecast,
+                    top_colors: topColors,
+                    flag: flag
+                };
+            });
+
+            // Lowest performers — SKU-level: fill rate <10% with sold > 0; cap 3.
+            var skuRows = m.filter(function(r) { return r.brand === bd.brand; }).map(function(r) {
+                var fr = Number(r.qty_retl) || 0;
+                var ac = Number(r.units_retail) || 0;
+                return { style_name: r.style_name, sku: r.sku, forecast: fr, actualized: ac, fillRate: fr > 0 ? (ac / fr) * 100 : null };
+            });
+            var lowest = skuRows.filter(function(r) {
+                return r.fillRate != null && r.fillRate < 10 && r.actualized > 0;
+            }).sort(function(a, b) { return a.fillRate - b.fillRate; }).slice(0, 3);
+
+            var fillRate = bd.forecast > 0 ? Math.round((bd.actualized / bd.forecast) * 100) : 0;
+            return {
+                brand: bd.brand,
+                fill_rate: fillRate,
+                ranked_too_high: fillRate < 50,
+                top_retailer: topRetailer,
+                top_styles: topStyles,
+                skus_ranked: bd.skus_ranked,
+                skus_sold: bd.skus_sold,
+                lowest: lowest
+            };
+        });
+
+        // ---- Overforecasted brands (over all brands in m) ----
+        var overforecasted = brandList.filter(function(bd) {
+            return bd.forecast > 0 && (bd.forecast - bd.actualized) / bd.forecast > 0.25;
+        }).map(function(bd) {
+            return {
+                brand: bd.brand,
+                forecast: Math.round(bd.forecast),
+                actualized: Math.round(bd.actualized),
+                fill_rate: Math.round((bd.actualized / bd.forecast) * 100)
+            };
+        }).sort(function(a, b) { return (b.forecast - b.actualized) - (a.forecast - a.actualized); });
+
+        return {
+            empty: false,
+            topRetailers: topRetailers,
+            brands: brands,
+            overforecasted: overforecasted,
+            suggested: globalSuggested,
+            allBrands: brandList
+        };
+    }
+
+    // Compute the global style-level suggested tiers used by recap auto-flags.
+    function computePerformanceRecapSuggestedTiers(D, p) {
+        var matrix = computeRankingMatrix(D, p, 'style');
+        return matrix.suggested;
+    }
+
+    // ===== Section 3: Brand × Retailer Matrix (Overview) =====
+    // Returns dense data for both views (units / pct of brand sales).
+    function computeBrandRetailerMatrix(D, p) {
+        var m = applyFilters(D.master, p);
+        if (!m.length) return { brands: [], retailers: [], rows: [], grandTotal: {} };
+
+        // Per-SKU forecast / style / sku counts, grouped by brand
+        var brandAgg = {};
+        m.forEach(function(r) {
+            var b = r.brand;
+            if (!b) return;
+            if (!brandAgg[b]) brandAgg[b] = { brand: b, forecast: 0, styles: new Set(), skus: new Set(), retailerUnits: {}, total: 0 };
+            brandAgg[b].forecast += Number(r.qty_retl) || 0;
+            if (r.style_name) brandAgg[b].styles.add(r.style_name);
+            if (r.sku) brandAgg[b].skus.add(r.sku);
+        });
+
+        var skuToBrand = {};
+        m.forEach(function(r) { if (r.sku && !skuToBrand[r.sku]) skuToBrand[r.sku] = r.brand; });
+
+        var cg = p.channel_group || 'Retail';
+        (D.account_actuals || []).forEach(function(r) {
+            var b = skuToBrand[r.sku];
+            if (!b || !brandAgg[b]) return;
+            if (cg !== 'ALL' && r.channel_group !== cg) return;
+            var u = Number(r.account_units) || 0;
+            brandAgg[b].retailerUnits[r.account] = (brandAgg[b].retailerUnits[r.account] || 0) + u;
+            brandAgg[b].total += u;
+        });
+
+        // Retailer columns sorted by total units descending across all shown brands
+        var retailerTotals = {};
+        Object.values(brandAgg).forEach(function(bd) {
+            Object.entries(bd.retailerUnits).forEach(function(e) {
+                retailerTotals[e[0]] = (retailerTotals[e[0]] || 0) + e[1];
+            });
+        });
+        var retailers = Object.entries(retailerTotals).sort(function(a, b) { return b[1] - a[1]; }).map(function(e) { return e[0]; });
+        var grandRetailerTotal = Object.values(retailerTotals).reduce(function(s, v) { return s + v; }, 0);
+
+        // Build rows; sort brands by actualized total desc.
+        var rows = Object.values(brandAgg).map(function(bd) {
+            return {
+                brand: bd.brand,
+                styles: bd.styles.size,
+                skus: bd.skus.size,
+                forecast: Math.round(bd.forecast),
+                total: Math.round(bd.total),
+                forecastDelta: Math.round(bd.forecast - bd.total),
+                cumPct: bd.forecast > 0 ? Math.round((bd.total / bd.forecast) * 100) : 0,
+                retailerUnits: retailers.reduce(function(acc, ret) {
+                    acc[ret] = Math.round(bd.retailerUnits[ret] || 0);
+                    return acc;
+                }, {})
+            };
+        }).sort(function(a, b) { return b.total - a.total; });
+
+        // Retailer percentage of total across-all-brands sales (for the small header row)
+        var retailerHeaderPct = retailers.map(function(r) {
+            return grandRetailerTotal > 0 ? Math.round((retailerTotals[r] / grandRetailerTotal) * 100) : 0;
+        });
+
+        // Grand total row
+        var grandTotal = {
+            brand: 'Grand Total',
+            styles: rows.reduce(function(s, r) { return s + r.styles; }, 0),
+            skus: rows.reduce(function(s, r) { return s + r.skus; }, 0),
+            forecast: rows.reduce(function(s, r) { return s + r.forecast; }, 0),
+            total: rows.reduce(function(s, r) { return s + r.total; }, 0),
+            forecastDelta: 0,
+            cumPct: 0,
+            retailerUnits: retailers.reduce(function(acc, ret) {
+                acc[ret] = rows.reduce(function(s, r) { return s + (r.retailerUnits[ret] || 0); }, 0);
+                return acc;
+            }, {})
+        };
+        grandTotal.forecastDelta = grandTotal.forecast - grandTotal.total;
+        grandTotal.cumPct = grandTotal.forecast > 0 ? Math.round((grandTotal.total / grandTotal.forecast) * 100) : 0;
+
+        return {
+            brands: rows.map(function(r) { return r.brand; }),
+            retailers: retailers,
+            retailerHeaderPct: retailerHeaderPct,
+            rows: rows,
+            grandTotal: grandTotal
+        };
+    }
+
 
 
         // ===== STATE =====
@@ -2406,13 +3489,107 @@
         // ===== HELPERS =====
         function getFilters() {
             return {
-                brand: document.getElementById('filter-brand').value,
-                gender: document.getElementById('filter-gender').value,
+                brand: msGetValue('ms-brand'),
+                gender: msGetValue('ms-gender'),
                 channel_group: document.getElementById('filter-channel').value,
                 sku_type: document.getElementById('filter-sku-type').value,
                 selection: document.getElementById('filter-selection').value,
             };
         }
+
+        // ===== MULTI-SELECT WIDGET =====
+        // Lightweight checkbox-dropdown bound to <div class="multiselect" id="ms-...">.
+        // Use msInit(id, options, defaultSelected) to populate; msGetValue(id) returns
+        // a comma-separated string (empty = all).
+        var __msState = {};
+        function msInit(id, options, selected) {
+            var root = document.getElementById(id);
+            if (!root) return;
+            var btn = root.querySelector('.multiselect-button');
+            var panel = root.querySelector('.multiselect-panel');
+            var placeholder = root.dataset.placeholder || 'All';
+            var sel = new Set(selected || []);
+            __msState[id] = { options: options.slice(), selected: sel, placeholder: placeholder, root: root };
+
+            function render() {
+                var html = '<div class="ms-action"><a data-act="all">Select all</a><a data-act="none">Clear</a></div><div class="ms-divider"></div>';
+                options.forEach(function(opt) {
+                    var val = typeof opt === 'string' ? opt : opt.value;
+                    var label = typeof opt === 'string' ? opt : (opt.label || opt.value);
+                    var checked = sel.has(val) ? 'checked' : '';
+                    html += '<label><input type="checkbox" value="' + escapeAttr(val) + '" ' + checked + '><span>' + escapeAttr(label) + '</span></label>';
+                });
+                panel.innerHTML = html;
+                updateBtn();
+            }
+            function updateBtn() {
+                if (sel.size === 0) {
+                    btn.textContent = placeholder;
+                    btn.classList.remove('has-value');
+                } else if (sel.size === 1) {
+                    btn.textContent = Array.from(sel)[0];
+                    btn.classList.add('has-value');
+                } else if (sel.size === options.length) {
+                    btn.textContent = placeholder;
+                    btn.classList.remove('has-value');
+                } else {
+                    btn.textContent = sel.size + ' selected';
+                    btn.classList.add('has-value');
+                }
+            }
+
+            btn.onclick = function(e) {
+                e.stopPropagation();
+                document.querySelectorAll('.multiselect-panel.open').forEach(function(p) { if (p !== panel) p.classList.remove('open'); });
+                panel.classList.toggle('open');
+            };
+            panel.onclick = function(e) {
+                e.stopPropagation();
+                var t = e.target;
+                if (t.tagName === 'INPUT' && t.type === 'checkbox') {
+                    if (t.checked) sel.add(t.value); else sel.delete(t.value);
+                    updateBtn();
+                } else if (t.tagName === 'A' && t.dataset.act) {
+                    sel.clear();
+                    if (t.dataset.act === 'all') options.forEach(function(o) { sel.add(typeof o === 'string' ? o : o.value); });
+                    render();
+                }
+            };
+            render();
+        }
+        function msGetValue(id) {
+            var s = __msState[id];
+            if (!s) {
+                // fallback: native select if user didn't init multi-select
+                var el = document.getElementById(id);
+                return el ? (el.value || '') : '';
+            }
+            // No selection or all selected => "" (means "all")
+            if (s.selected.size === 0 || s.selected.size === s.options.length) return '';
+            return Array.from(s.selected).join(',');
+        }
+        function msSetValue(id, csv) {
+            var s = __msState[id];
+            if (!s) return;
+            s.selected.clear();
+            if (csv) String(csv).split(',').forEach(function(v) {
+                v = v.trim();
+                if (v && s.options.indexOf(v) >= 0) s.selected.add(v);
+            });
+            // Re-render checkboxes
+            var panel = s.root.querySelector('.multiselect-panel');
+            panel.querySelectorAll('input[type="checkbox"]').forEach(function(cb) { cb.checked = s.selected.has(cb.value); });
+            // Update button label
+            var btn = s.root.querySelector('.multiselect-button');
+            if (s.selected.size === 0) { btn.textContent = s.placeholder; btn.classList.remove('has-value'); }
+            else if (s.selected.size === 1) { btn.textContent = Array.from(s.selected)[0]; btn.classList.add('has-value'); }
+            else if (s.selected.size === s.options.length) { btn.textContent = s.placeholder; btn.classList.remove('has-value'); }
+            else { btn.textContent = s.selected.size + ' selected'; btn.classList.add('has-value'); }
+        }
+        // Close multi-select panels when clicking outside
+        document.addEventListener('click', function() {
+            document.querySelectorAll('.multiselect-panel.open').forEach(function(p) { p.classList.remove('open'); });
+        });
 
         function qs(params) {
             return Object.entries(params).filter(([,v]) => v).map(([k,v]) => `${k}=${encodeURIComponent(v)}`).join('&');
@@ -2512,8 +3689,8 @@
 
         function updateFilterUI() {
             const f = getFilters();
-            const hasNonDefault = f.gender || f.channel_group !== 'Retail' || f.sku_type !== 'NMO' || f.selection !== 'SELECTED';
-            document.getElementById('btn-reset').style.display = (hasNonDefault || f.brand) ? '' : 'none';
+            const hasNonDefault = f.gender || f.channel_group !== 'Retail' || f.sku_type !== 'NMO' || f.selection !== 'SELECTED' || f.brand;
+            document.getElementById('btn-reset').style.display = hasNonDefault ? '' : 'none';
         }
 
         function applyDashboardFilters() {
@@ -2526,8 +3703,8 @@
         }
 
         function resetFilters() {
-            document.getElementById('filter-brand').value = '';
-            document.getElementById('filter-gender').value = '';
+            msSetValue('ms-brand', '');
+            msSetValue('ms-gender', '');
             document.getElementById('filter-channel').value = 'Retail';
             document.getElementById('filter-sku-type').value = 'NMO';
             document.getElementById('filter-selection').value = 'SELECTED';
@@ -2639,6 +3816,7 @@
             const f = getFilters();
             switch(name) {
                 case 'overview': await loadOverview(f, token); break;
+                case 'perfrecap': await loadPerformanceRecap(); break;
                 case 'rankings': await loadRankings(f, token); break;
                 case 'attributes': await loadAttributes(f, token); break;
                 case 'projections': await loadProjections(f, token); break;
@@ -2749,7 +3927,7 @@
                         if (elements.length > 0) {
                             const idx = elements[0].index;
                             const brand = bv.labels[idx];
-                            document.getElementById('filter-brand').value = brand;
+                            msSetValue('ms-brand', brand);
                             onFilterChange();
                         }
                     },
@@ -2908,78 +4086,68 @@
             }
             renderDemandCard('demand-selected', 'Selected for retail', sel);
             renderDemandCard('demand-unselected', 'Unselected (X / blank)', uns);
+
+            // Brand × Retailer matrix (Section 3) — independent fetch, doesn't block KPIs.
+            loadBrandRetailerMatrix(f);
         }
 
-        // ===== RANKINGS =====
-        async function loadRankings(f, token) {
-            showLoading('bench-style');
-            showLoading('bench-sku');
+        // ===== RANKINGS — comparison-table renderer =====
+        function renderRankingMatrix(idPrefix, matrix, levelLabel, threshold) {
+            const tableEl = document.getElementById(idPrefix + '-table');
+            const warnEl = document.getElementById(idPrefix + '-warning');
+            const footEl = document.getElementById(idPrefix + '-footer');
+            const rows = matrix.rows || [];
+            const limited = matrix.suggested && matrix.suggested.limited;
 
-            const bench = await fetchJson(`/api/benchmarks?${qs(f)}`);
+            if (!matrix.sampleSize) {
+                tableEl.innerHTML = '<div class="rank-compare-footer">No data for the current filter.</div>';
+                warnEl.style.display = 'none';
+                footEl.textContent = '';
+                return;
+            }
+
+            // Insufficient-data banner
+            if (matrix.sampleSize < threshold) {
+                warnEl.textContent = 'Limited data for this selection (' + matrix.sampleSize + ' ' + levelLabel + '). Consider combining genders or expanding the brand filter.';
+                warnEl.style.display = '';
+            } else {
+                warnEl.style.display = 'none';
+            }
+
+            const fmt = v => v == null ? '&mdash;' : formatNum(Math.round(v));
+            let html = '<table class="rank-compare-table"><thead><tr>';
+            html += '<th>Tier</th><th>Original Forecast</th><th>Actualized</th><th>New Suggested</th>';
+            html += '</tr></thead><tbody>';
+            rows.forEach(r => {
+                const tierCls = 'tier-' + r.tier.toLowerCase();
+                html += '<tr>';
+                html += `<td class="${tierCls}">${r.tier}</td>`;
+                html += `<td>${fmt(r.forecast)}</td>`;
+                html += `<td>${fmt(r.actualized)}</td>`;
+                html += `<td class="rc-suggested">${fmt(r.suggested)}</td>`;
+                html += '</tr>';
+            });
+            html += '</tbody></table>';
+            tableEl.innerHTML = html;
+            footEl.textContent = limited
+                ? 'Limited data — suggested tiers may not be statistically meaningful.'
+                : `Computed across ${formatNum(matrix.sampleSize)} ${levelLabel}.`;
+        }
+
+        async function loadRankings(f, token) {
+            showLoading('rank-style');
+            showLoading('rank-sku');
+
+            const [styleMatrix, skuMatrix] = await Promise.all([
+                fetchJson(`/api/ranking_matrix_style?${qs(f)}`),
+                fetchJson(`/api/ranking_matrix_sku?${qs(f)}`)
+            ]);
             if (token !== sectionLoadToken) return;
 
-            for (const [level, chartId] of [['style', 'bench-style'], ['sku', 'bench-sku']]) {
-                destroyChart(chartId);
-                hideLoading(chartId);
-                const d = bench[level] || { ranks: [], volumes: [], counts: [] };
-                charts[chartId] = new Chart(document.getElementById('chart-' + chartId), {
-                    type: 'bar',
-                    data: {
-                        labels: d.ranks,
-                        datasets: [
-                            {
-                                label: 'Total Volume',
-                                data: d.volumes,
-                                backgroundColor: 'rgba(5,36,76,0.7)',
-                                borderColor: '#05244C',
-                                borderWidth: 1,
-                                borderRadius: 3,
-                                yAxisID: 'y',
-                            },
-                            {
-                                label: 'Count',
-                                data: d.counts,
-                                backgroundColor: 'rgba(196,149,106,0.5)',
-                                borderColor: 'rgba(196,149,106,0.85)',
-                                borderWidth: 1,
-                                borderRadius: 3,
-                                yAxisID: 'y1',
-                            }
-                        ]
-                    },
-                    options: {
-                        responsive: true, maintainAspectRatio: false,
-                        scales: {
-                            x: { ticks: { color: CHART_TICK_COLOR, font: { family: 'Jost' } }, grid: { color: CHART_GRID_COLOR } },
-                            y: {
-                                position: 'left',
-                                ticks: { color: '#05244C', font: { family: 'Jost' }, callback: v => formatNumShort(v) },
-                                grid: { color: CHART_GRID_COLOR },
-                                title: { display: true, text: 'Volume', color: '#05244C', font: { family: 'Jost' } }
-                            },
-                            y1: {
-                                position: 'right',
-                                ticks: { color: '#C4956A', font: { family: 'Jost' } },
-                                grid: { drawOnChartArea: false },
-                                title: { display: true, text: 'Count', color: '#C4956A', font: { family: 'Jost' } }
-                            }
-                        },
-                        plugins: {
-                            legend: { labels: { color: CHART_LABEL_COLOR, padding: 16, font: { family: 'Jost' } } },
-                            tooltip: {
-                                ...CHART_TOOLTIP,
-                                callbacks: {
-                                    afterBody: (tooltipItems) => {
-                                        const idx = tooltipItems[0].dataIndex;
-                                        const avgVol = d.avg_volumes ? d.avg_volumes[idx] : null;
-                                        return avgVol != null ? `Avg Volume: ${formatNum(Math.round(avgVol))}` : '';
-                                    }
-                                }
-                            }
-                        }
-                    }
-                });
-            }
+            renderRankingMatrix('rank-style', styleMatrix, 'styles', 8);
+            renderRankingMatrix('rank-sku', skuMatrix, 'SKUs', 16);
+            hideLoading('rank-style');
+            hideLoading('rank-sku');
 
             // Ranking table
             const rt = await fetchJson(`/api/ranking_table?${qs(f)}`);
@@ -3033,6 +4201,321 @@
             const rankingSkuTotal = rows.reduce((sum, r) => sum + (Number(r.sku_count) || 0), 0);
             document.getElementById('ranking-count').textContent = `Total: ${formatNum(rankingSkuTotal)} SKUs across ${formatNum(rows.length)} styles`;
             makeSortable(document.getElementById('ranking-table').querySelector('table'));
+        }
+
+        // ===== NA-RETL PERFORMANCE RECAP =====
+        // Default view: Retail + NMO locked, ALL brand / ALL gender / ALL selection.
+        // Customize panel allows brand/gender/selection overrides; channel + sku_type stay locked.
+        var __recapInited = false;
+        function getRecapFilters() {
+            return {
+                channel_group: 'Retail',
+                sku_type: 'NMO',
+                brand: msGetValue('ms-recap-brand'),
+                gender: msGetValue('ms-recap-gender'),
+                selection: document.getElementById('filter-recap-selection').value || 'ALL'
+            };
+        }
+        function resetRecapFilters() {
+            msSetValue('ms-recap-brand', '');
+            msSetValue('ms-recap-gender', '');
+            document.getElementById('filter-recap-selection').value = 'ALL';
+            loadPerformanceRecap();
+        }
+
+        async function loadPerformanceRecap() {
+            const target = document.getElementById('recap-content');
+            const loadingEl = document.getElementById('load-perfrecap');
+            if (loadingEl) loadingEl.classList.add('active');
+            const f = getRecapFilters();
+            const data = await fetchJson(`/api/performance_recap?${qs(f)}`);
+
+            if (!data || data.empty) {
+                target.innerHTML = '<div class="recap-section"><h2>No data</h2><p>No SKUs match the current filters. Reset the customize panel to defaults.</p></div>';
+                if (loadingEl) loadingEl.classList.remove('active');
+                return;
+            }
+
+            // Top retailers section
+            let html = '<section class="recap-section recap-top-retailers">'
+                + '<h2>Top Retailers (Across All Brands)</h2>'
+                + '<ul>'
+                + (data.topRetailers || []).map(r =>
+                    `<li><span class="retailer-name">${escapeAttr(r.name)}</span> &mdash; ${r.pct}% of total sales <span style="color:var(--text-muted); font-size:11px;">(${formatNum(r.units)} units)</span></li>`
+                ).join('')
+                + '</ul></section>';
+
+            // Top performing brands
+            html += '<section class="recap-section"><h2>Top Performing Brands</h2></section>';
+            html += (data.brands || []).map((b, idx) => renderBrandRecapCard(b, idx + 1)).join('');
+
+            // Overforecasted brands
+            if ((data.overforecasted || []).length > 0) {
+                html += '<section class="recap-section">'
+                    + '<h2>Overforecasted Brands</h2>'
+                    + '<ul class="recap-overforecasted-list">'
+                    + data.overforecasted.map(o =>
+                        `<li><span class="of-brand">${escapeAttr(o.brand)}</span><span class="of-meta">Forecast: ${formatNum(o.forecast)} | Actualized: ${formatNum(o.actualized)} | Fill Rate: ${o.fill_rate}%</span></li>`
+                    ).join('')
+                    + '</ul></section>';
+            }
+
+            target.innerHTML = html;
+            // Cache the recap payload so deep-links can scroll to a brand and CSV/PDF use the same data.
+            window.__RECAP_DATA__ = data;
+            if (window.__RECAP_DEEP_LINK__) {
+                const anchor = document.getElementById('recap-brand-' + cssId(window.__RECAP_DEEP_LINK__));
+                if (anchor) anchor.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                window.__RECAP_DEEP_LINK__ = null;
+            }
+            if (loadingEl) loadingEl.classList.remove('active');
+        }
+
+        function cssId(s) { return String(s || '').toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, ''); }
+
+        function renderBrandRecapCard(b, num) {
+            const flag = b.ranked_too_high ? '<span class="recap-flag">Ranked Too High</span>' : '';
+            const top = b.top_retailer ? `${escapeAttr(b.top_retailer.name)} (${b.top_retailer.pct}% of total sales)` : '&mdash;';
+            const styles = (b.top_styles || []).map((s, i) => {
+                const fillRate = s.fill_rate == null ? '&mdash;' : (s.fill_rate + '%');
+                const colors = (s.top_colors || []).filter(Boolean).join(', ') || '&mdash;';
+                let flagHtml = '';
+                if (s.flag) {
+                    const cls = s.flag.dir === 'down' ? ' down' : '';
+                    flagHtml = ` <span class="style-flag${cls}">(performed like ${s.flag.tier} Style in ${formatNum(s.flag.range)}-unit sales range)</span>`;
+                }
+                const rankBadge = s.rank ? `<span class="rank-badge ${rankClass(s.rank)}">${s.rank}</span>` : '<span class="unselected-badge">&mdash;</span>';
+                return `<div class="recap-style-item">
+                    <span class="style-num">#${i + 1}</span>
+                    <span class="style-name">${escapeAttr(s.style_name || '')}</span>
+                    <span class="style-meta">
+                        Rank: ${rankBadge}${flagHtml} &nbsp;|&nbsp;
+                        Fill Rate: ${fillRate} &nbsp;|&nbsp;
+                        Strong Colors: ${escapeAttr(colors)}
+                    </span>
+                </div>`;
+            }).join('');
+            const lowest = (b.lowest || []).map(l =>
+                `<div class="lowest-row">${escapeAttr(l.style_name || l.sku || '')} &mdash; ${Math.round(l.fillRate)}% FR</div>`
+            ).join('') || '<div class="lowest-row">&mdash; none below 10% fill rate &mdash;</div>';
+
+            return `<article class="recap-brand-card" id="recap-brand-${cssId(b.brand)}">
+                <h3>${num}. Brand: ${escapeAttr(b.brand)} ${flag}</h3>
+                <div class="recap-brand-metrics">
+                    <div><span class="metric-label">Overall Fill Rate:</span><span class="metric-value">${b.fill_rate}%</span></div>
+                    <div><span class="metric-label">Top Retailer:</span><span class="metric-value">${top}</span></div>
+                </div>
+                <div class="recap-styles-block">
+                    <h4>Top Performing Styles</h4>
+                    ${styles || '<div class="recap-style-item">No qualifying styles.</div>'}
+                </div>
+                <div class="recap-extra-block">
+                    <h4>Additional Notes</h4>
+                    SKUs Ranked: <span class="extra-value">${b.skus_ranked}</span> | Sold: <span class="extra-value">${b.skus_sold}</span>
+                </div>
+                <div class="recap-lowest-block">
+                    <h4>Lowest Performers</h4>
+                    ${lowest}
+                </div>
+            </article>`;
+        }
+
+        function downloadRecapPDF() {
+            // Print-to-PDF using the @media print stylesheet defined in CSS.
+            window.print();
+        }
+
+        function downloadRecapCSV() {
+            const data = window.__RECAP_DATA__;
+            if (!data || data.empty) { alert('Load the recap first.'); return; }
+            const cols = ['Brand', 'Section', 'Style/SKU Name', 'Original Rank', 'Forecast Qty', 'Actualized Qty', 'Fill Rate', 'Strong Colors', 'Top Retailer', 'Notes/Flags'];
+            const rows = [];
+            (data.brands || []).forEach(b => {
+                const topRet = b.top_retailer ? `${b.top_retailer.name} (${b.top_retailer.pct}%)` : '';
+                (b.top_styles || []).forEach((s, i) => {
+                    rows.push([
+                        b.brand, `Top Performing Style #${i + 1}`, s.style_name || '', s.rank || '',
+                        Math.round(s.forecast || 0), Math.round(s.actualized || 0),
+                        s.fill_rate == null ? '' : (s.fill_rate + '%'),
+                        (s.top_colors || []).join('; '),
+                        topRet,
+                        s.flag ? `Performed like ${s.flag.tier} Style (${s.flag.dir})` : (b.ranked_too_high ? 'Ranked Too High' : '')
+                    ]);
+                });
+                (b.lowest || []).forEach(l => {
+                    rows.push([
+                        b.brand, 'Lowest Performer', l.style_name || l.sku || '', '',
+                        Math.round(l.forecast || 0), Math.round(l.actualized || 0),
+                        l.fillRate == null ? '' : Math.round(l.fillRate) + '%',
+                        '', topRet, ''
+                    ]);
+                });
+            });
+            (data.overforecasted || []).forEach(o => {
+                rows.push([o.brand, 'Overforecasted', '', '', o.forecast, o.actualized, o.fill_rate + '%', '', '', '']);
+            });
+            triggerCsvDownload('safilo_performance_recap.csv', cols, rows);
+        }
+
+        function triggerCsvDownload(filename, cols, rows) {
+            let csv = cols.join(',') + '\n';
+            rows.forEach(r => {
+                csv += r.map(v => {
+                    if (v == null) return '';
+                    const s = String(v);
+                    return /[,"\n]/.test(s) ? '"' + s.replace(/"/g, '""') + '"' : s;
+                }).join(',') + '\n';
+            });
+            const blob = new Blob([csv], { type: 'text/csv;charset=utf-8' });
+            const link = document.createElement('a');
+            link.href = URL.createObjectURL(blob);
+            link.download = filename;
+            link.click();
+        }
+
+        // ===== BRAND × RETAILER MATRIX (Overview) =====
+        var __brMatrixView = 'units';
+        var __brMatrixData = null;
+        async function loadBrandRetailerMatrix(f) {
+            const wrapper = document.getElementById('br-matrix-wrapper');
+            const loadingEl = document.getElementById('load-br-matrix');
+            if (loadingEl) loadingEl.classList.add('active');
+            const data = await fetchJson(`/api/brand_retailer_matrix?${qs(f)}`);
+            __brMatrixData = data;
+            renderBrandRetailerMatrix();
+            const subtitle = document.getElementById('br-matrix-subtitle');
+            if (subtitle) {
+                subtitle.textContent = `${data.rows.length} brands × ${data.retailers.length} retailers (channel: ${f.channel_group || 'Retail'})`;
+            }
+            if (loadingEl) loadingEl.classList.remove('active');
+        }
+
+        function renderBrandRetailerMatrix() {
+            const wrapper = document.getElementById('br-matrix-wrapper');
+            if (!__brMatrixData) { wrapper.innerHTML = ''; return; }
+            const data = __brMatrixData;
+            const view = __brMatrixView;
+            const retailers = data.retailers || [];
+            const rows = data.rows || [];
+
+            let html = '<table class="br-matrix"><thead>';
+            // Top header row: percentages above retailer columns + "Goal 70%" anchor
+            if (view === 'units') {
+                html += '<tr class="retailer-pct-row">';
+                html += '<th colspan="7" style="text-align:right;">Goal 70%</th>';
+                retailers.forEach((r, i) => {
+                    html += `<th>${data.retailerHeaderPct[i]}%</th>`;
+                });
+                html += '</tr>';
+                // Main header row
+                html += '<tr>'
+                    + '<th class="left-col">Brand</th><th># Styles</th><th># SKUs</th><th>QTY_FCST</th>'
+                    + '<th>BW Acct Total</th><th>Forecast &minus; Actual</th><th>BW % CUM</th>';
+                retailers.forEach(r => { html += `<th>${escapeAttr(r)}</th>`; });
+                html += '</tr>';
+            } else {
+                html += '<tr><th class="left-col">Brand</th>';
+                retailers.forEach(r => { html += `<th>${escapeAttr(r)}</th>`; });
+                html += '</tr>';
+            }
+            html += '</thead><tbody>';
+
+            rows.forEach(row => {
+                if (view === 'units') {
+                    const cls = cumPctClass(row.cumPct);
+                    html += `<tr><td class="brand-col" data-brand="${escapeAttr(row.brand)}">${escapeAttr(row.brand)}</td>`;
+                    html += `<td>${formatNum(row.styles)}</td>`;
+                    html += `<td>${formatNum(row.skus)}</td>`;
+                    html += `<td>${formatNum(row.forecast)}</td>`;
+                    html += `<td>${formatNum(row.total)}</td>`;
+                    html += `<td>${formatNum(row.forecastDelta)}</td>`;
+                    html += `<td class="${cls}">${row.cumPct}%</td>`;
+                    retailers.forEach(r => {
+                        const v = row.retailerUnits[r] || 0;
+                        const display = v > 0 ? formatNum(v) : '&mdash;';
+                        const tip = v > 0 ? `${escapeAttr(row.brand)} at ${escapeAttr(r)}: ${formatNum(v)} units (${row.total > 0 ? Math.round(v / row.total * 100) : 0}% of ${escapeAttr(row.brand)} sales)` : '';
+                        html += `<td title="${tip}">${display}</td>`;
+                    });
+                    html += '</tr>';
+                } else {
+                    html += `<tr><td class="brand-col" data-brand="${escapeAttr(row.brand)}">${escapeAttr(row.brand)}</td>`;
+                    retailers.forEach(r => {
+                        const v = row.retailerUnits[r] || 0;
+                        const pct = row.total > 0 ? Math.round((v / row.total) * 100) : 0;
+                        const cls = pct >= 50 ? 'pct-highlight' : '';
+                        html += `<td class="${cls}">${pct}%</td>`;
+                    });
+                    html += '</tr>';
+                }
+            });
+
+            // Grand total row
+            const gt = data.grandTotal;
+            if (view === 'units') {
+                const cls = cumPctClass(gt.cumPct);
+                html += `<tr class="matrix-grand-total"><td class="brand-col">Grand Total</td>`;
+                html += `<td>${formatNum(gt.styles)}</td>`;
+                html += `<td>${formatNum(gt.skus)}</td>`;
+                html += `<td>${formatNum(gt.forecast)}</td>`;
+                html += `<td>${formatNum(gt.total)}</td>`;
+                html += `<td>${formatNum(gt.forecastDelta)}</td>`;
+                html += `<td class="${cls}">${gt.cumPct}%</td>`;
+                retailers.forEach(r => {
+                    const v = gt.retailerUnits[r] || 0;
+                    html += `<td>${v > 0 ? formatNum(v) : '&mdash;'}</td>`;
+                });
+                html += '</tr>';
+            }
+            html += '</tbody></table>';
+            wrapper.innerHTML = html;
+
+            // Click brand → recap deep link
+            wrapper.querySelectorAll('td.brand-col[data-brand]').forEach(el => {
+                el.addEventListener('click', () => {
+                    const brand = el.dataset.brand;
+                    if (!brand) return;
+                    window.__RECAP_DEEP_LINK__ = brand;
+                    document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+                    document.getElementById('section-perfrecap').classList.add('active');
+                    document.querySelectorAll('.sidebar-item').forEach(i => i.classList.remove('active'));
+                    const navItem = document.querySelector('.sidebar-item[data-section="perfrecap"]');
+                    if (navItem) navItem.classList.add('active');
+                    currentSection = 'perfrecap';
+                    loadPerformanceRecap();
+                });
+            });
+        }
+
+        function cumPctClass(pct) {
+            if (pct >= 70) return 'cum-cell-on-goal';
+            if (pct >= 50) return 'cum-cell-mid-high';
+            if (pct >= 30) return 'cum-cell-mid-low';
+            return 'cum-cell-low';
+        }
+
+        function downloadMatrixPDF() { window.print(); }
+
+        function downloadMatrixCSV() {
+            if (!__brMatrixData) { alert('No matrix data loaded.'); return; }
+            const data = __brMatrixData;
+            const view = __brMatrixView;
+            let cols, rows;
+            if (view === 'units') {
+                cols = ['Brand', '# Styles', '# SKUs', 'QTY_FCST', 'BW Acct Grand Total', 'Forecast - Actual', 'BW % CUM'].concat(data.retailers);
+                rows = data.rows.map(r => [
+                    r.brand, r.styles, r.skus, r.forecast, r.total, r.forecastDelta, r.cumPct + '%'
+                ].concat(data.retailers.map(ret => r.retailerUnits[ret] || 0)));
+                const gt = data.grandTotal;
+                rows.push(['Grand Total', gt.styles, gt.skus, gt.forecast, gt.total, gt.forecastDelta, gt.cumPct + '%'].concat(data.retailers.map(ret => gt.retailerUnits[ret] || 0)));
+            } else {
+                cols = ['Brand'].concat(data.retailers);
+                rows = data.rows.map(r => [r.brand].concat(data.retailers.map(ret => {
+                    const v = r.retailerUnits[ret] || 0;
+                    const pct = r.total > 0 ? Math.round((v / r.total) * 100) : 0;
+                    return pct + '%';
+                })));
+            }
+            triggerCsvDownload(`safilo_brand_retailer_matrix_${view}.csv`, cols, rows);
         }
 
         // ===== ATTRIBUTES =====
@@ -3426,15 +4909,30 @@
         // ===== INIT =====
         async function init() {
             const brands = await fetchJson('/api/brands');
+            const genderOptions = [
+                { value: 'MAN', label: 'Men' },
+                { value: 'WOMAN', label: 'Women' },
+                { value: 'UNISEX ADULT', label: 'Unisex' }
+            ];
 
-            // Populate brand dropdown; filters apply only when Apply is clicked.
-            const sel = document.getElementById('filter-brand');
-            sel.innerHTML = '<option value="">All Brands</option>';
-            brands.forEach(b => {
-                const opt = document.createElement('option');
-                opt.value = b; opt.textContent = b;
-                sel.appendChild(opt);
-            });
+            // Populate multi-select brand dropdowns (top filter bar + recap customize panel)
+            msInit('ms-brand', brands || [], []);
+            msInit('ms-gender', genderOptions, []);
+            msInit('ms-recap-brand', brands || [], []);
+            msInit('ms-recap-gender', genderOptions, []);
+
+            // Wire up matrix view toggle
+            const toggleEl = document.getElementById('br-matrix-toggle');
+            if (toggleEl) {
+                toggleEl.querySelectorAll('button').forEach(btn => {
+                    btn.addEventListener('click', () => {
+                        toggleEl.querySelectorAll('button').forEach(b => b.classList.remove('active'));
+                        btn.classList.add('active');
+                        __brMatrixView = btn.dataset.view;
+                        renderBrandRetailerMatrix();
+                    });
+                });
+            }
 
             updateFilterUI();
             setupBannerObserver();
