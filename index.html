@@ -1659,6 +1659,49 @@
         .br-matrix .cum-cell-low { background: rgba(212,132,90,0.45); color: #FFFFFF; font-weight: 600; }
         .br-matrix .pct-highlight { background: rgba(74,140,111,0.22); color: var(--sage-green); font-weight: 600; }
 
+        /* ============ COLUMN TOTAL TAGS (top of any orders table) ============ */
+        .col-totals-bar {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin: 0 0 14px;
+            padding: 10px 12px;
+            background: rgba(5,36,76,0.04);
+            border: 1px solid var(--border);
+            border-radius: 4px;
+        }
+        .col-total-tag {
+            display: inline-flex;
+            flex-direction: column;
+            background: #FFFFFF;
+            border: 1px solid var(--border-light);
+            border-radius: 4px;
+            padding: 5px 10px;
+            font-family: 'Jost', sans-serif;
+            min-width: 90px;
+        }
+        .col-total-tag .ct-label {
+            font-size: 9px;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            font-weight: 500;
+        }
+        .col-total-tag .ct-value {
+            font-size: 14px;
+            color: var(--navy);
+            font-weight: 600;
+            font-variant-numeric: tabular-nums;
+            margin-top: 2px;
+        }
+        .col-total-tag.total-rows .ct-label { color: var(--accent); }
+        .col-total-tag.total-rows .ct-value { color: var(--navy-medium); }
+        @media (prefers-color-scheme: dark) {
+            .col-totals-bar { background: rgba(255,255,255,0.04) !important; border-color: var(--border) !important; }
+            .col-total-tag { background: var(--bg-input) !important; border-color: var(--border-light) !important; }
+            .col-total-tag .ct-value { color: var(--text-primary) !important; }
+        }
+
         /* Print: Performance Recap to PDF (window.print) */
         @media print {
             .header, .sidebar, .filters-bar, #validation-banner, .recap-header-actions, .recap-customize, .lineage-modal, .info-icon { display: none !important; }
@@ -1887,6 +1930,7 @@
                         </div>
                     </div>
                     <div class="table-count" id="ranking-count"></div>
+                    <div id="ranking-totals"></div>
                     <div class="max-h-table" id="ranking-table"></div>
                 </div>
             </div>
@@ -1988,6 +2032,7 @@
                         <h3>Account x Brand Volume Matrix <span class="info-icon" onclick="openLineageModal('table.account_brand_matrix')" title="Data pathway">&#9432;</span></h3>
                         <input type="text" class="table-search" id="account-search" placeholder="Search accounts..." oninput="filterTable('account-matrix', this.value)">
                     </div>
+                    <div id="account-totals"></div>
                     <div class="max-h-table" id="account-matrix"></div>
                 </div>
             </div>
@@ -2004,6 +2049,7 @@
                         </div>
                     </div>
                     <div class="table-count" id="top-styles-count"></div>
+                    <div id="top-styles-totals"></div>
                     <div class="max-h-table" id="top-styles-table" style="max-height:500px"></div>
                 </div>
                 <div class="table-card">
@@ -2012,6 +2058,7 @@
                         <input type="text" class="table-search" id="top-sku-search" placeholder="Search SKUs..." oninput="filterTable('top-skus-table', this.value)">
                     </div>
                     <div class="table-count" id="top-skus-count"></div>
+                    <div id="top-skus-totals"></div>
                     <div class="max-h-table" id="top-skus-table" style="max-height:500px"></div>
                 </div>
             </div>
@@ -2030,6 +2077,7 @@
                         </div>
                     </div>
                     <div class="table-count" id="sku-count"></div>
+                    <div id="sku-detail-totals"></div>
                     <div class="max-h-table" id="sku-detail-table" style="max-height:650px"></div>
                 </div>
             </div>
@@ -3755,6 +3803,48 @@
             window.location.href = '/api/export/validation?format=csv';
         }
 
+        // ===== COLUMN TOTAL TAGS =====
+        // Renders a row of "tag" cards above an orders table, each tag showing
+        // the sum of one numeric column. Tags update live with whatever rows are
+        // currently passed in, so when the user filters by brand the totals
+        // reflect just that brand's slice. Pass cols as
+        //   [{ key: 'qty_retl', label: 'Forecast Qty', fmt?: formatter }, ...]
+        // formatter defaults to formatNum (thousand-separated whole numbers).
+        function renderSumTags(slotId, rows, cols, opts) {
+            var slot = document.getElementById(slotId);
+            if (!slot) return;
+            opts = opts || {};
+            if (!rows || rows.length === 0) {
+                slot.innerHTML = '';
+                return;
+            }
+            var tags = [];
+            // Always lead with row count so the user has scope context.
+            tags.push(
+                '<div class="col-total-tag total-rows">' +
+                    '<span class="ct-label">' + escapeAttr(opts.rowLabel || 'Rows') + '</span>' +
+                    '<span class="ct-value">' + formatNum(rows.length) + '</span>' +
+                '</div>'
+            );
+            cols.forEach(function(c) {
+                var sum = 0;
+                var hasNumeric = false;
+                rows.forEach(function(r) {
+                    var v = Number(r[c.key]);
+                    if (!isNaN(v)) { sum += v; hasNumeric = true; }
+                });
+                if (!hasNumeric) return;
+                var fmt = c.fmt || function(n) { return formatNum(Math.round(n)); };
+                tags.push(
+                    '<div class="col-total-tag">' +
+                        '<span class="ct-label">' + escapeAttr(c.label) + '</span>' +
+                        '<span class="ct-value">' + fmt(sum) + '</span>' +
+                    '</div>'
+                );
+            });
+            slot.innerHTML = '<div class="col-totals-bar">' + tags.join('') + '</div>';
+        }
+
         // ===== TABLE SORTING =====
         function makeSortable(tableEl) {
             if (!tableEl) return;
@@ -4200,6 +4290,12 @@
             document.getElementById('ranking-table').innerHTML = html;
             const rankingSkuTotal = rows.reduce((sum, r) => sum + (Number(r.sku_count) || 0), 0);
             document.getElementById('ranking-count').textContent = `Total: ${formatNum(rankingSkuTotal)} SKUs across ${formatNum(rows.length)} styles`;
+            renderSumTags('ranking-totals', rows, [
+                { key: 'sku_count', label: 'SKUs' },
+                { key: 'volume', label: 'Volume' },
+                { key: 'projected_units', label: 'Projected' },
+                { key: 'proj_vs_actual', label: 'Diff vs Projection' }
+            ], { rowLabel: 'Styles' });
             makeSortable(document.getElementById('ranking-table').querySelector('table'));
         }
 
@@ -4742,6 +4838,10 @@
             });
             html += '</tbody></table>';
             document.getElementById('account-matrix').innerHTML = html;
+            // Totals bar: column total per brand + grand total. Each brand gets its own tag.
+            const accountTotalCols = mx.brands.map(b => ({ key: b, label: b }))
+                .concat([{ key: 'total', label: 'TOTAL' }]);
+            renderSumTags('account-totals', mx.matrix, accountTotalCols, { rowLabel: 'Accounts' });
             makeSortable(document.getElementById('account-matrix').querySelector('table'));
         }
 
@@ -4790,6 +4890,12 @@
             sh += '</tbody></table>';
             document.getElementById('top-styles-table').innerHTML = sh;
             document.getElementById('top-styles-count').textContent = `${formatNum(styleRows.length)} styles with forecast data`;
+            renderSumTags('top-styles-totals', styleRows, [
+                { key: 'sku_count', label: 'SKUs' },
+                { key: 'qty_retl', label: 'Forecast Qty' },
+                { key: 'units_retail', label: 'Actualized' },
+                { key: 'delta', label: 'Δ vs Forecast' }
+            ], { rowLabel: 'Styles' });
             makeSortable(document.getElementById('top-styles-table').querySelector('table'));
 
             // SKUs table
@@ -4830,6 +4936,11 @@
             kh += '</tbody></table>';
             document.getElementById('top-skus-table').innerHTML = kh;
             document.getElementById('top-skus-count').textContent = `${formatNum(skuRows.length)} SKUs with forecast data`;
+            renderSumTags('top-skus-totals', skuRows, [
+                { key: 'qty_retl', label: 'Forecast Qty' },
+                { key: 'units_retail', label: 'Actualized' },
+                { key: 'delta', label: 'Δ vs Forecast' }
+            ], { rowLabel: 'SKUs' });
             makeSortable(document.getElementById('top-skus-table').querySelector('table'));
         }
 
@@ -4903,6 +5014,18 @@
             html += '</tbody></table>';
             document.getElementById('sku-detail-table').innerHTML = html;
             document.getElementById('sku-count').textContent = `${formatNum(d.rows.length)} SKUs matching filters`;
+            renderSumTags('sku-detail-totals', d.rows, [
+                { key: 'qty_retl', label: 'Forecast Qty' },
+                { key: 'units_retail', label: 'Retail Actualized' },
+                { key: 'retail_forecast_delta', label: 'Δ vs Forecast' },
+                { key: 'units_amazon', label: 'Amazon Units' },
+                { key: 'units_kohls', label: "Kohl's Units" },
+                { key: 'units_btq', label: 'BTQ Units' },
+                { key: 'total_units', label: 'Total Volume' },
+                { key: 'projected_units', label: 'Projected (rollup)' },
+                { key: 'proj_vs_actual', label: 'Proj vs Actual' },
+                { key: 'qty_ecom', label: 'ECOM Qty' }
+            ], { rowLabel: 'SKUs' });
             makeSortable(document.getElementById('sku-detail-table').querySelector('table'));
         }
 
